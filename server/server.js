@@ -1,15 +1,13 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const connectDB = require("./config/db");
-dotenv.config();
-
-const app = express();
+import express, { json } from "express";
+import { config } from "dotenv";
+import cors from "cors";
+import app from "./app.js";
+import connectDB from "./config/db.js";
+config();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // To parse JSON requests
+app.use(json()); // To parse JSON requests
 
 // Example route
 app.get("/", (req, res) => {

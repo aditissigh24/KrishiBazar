@@ -1,13 +1,12 @@
 import jwt from "jsonwebtoken";
-import User from "../models/UserModel"; // Import with ES Module syntax
-import ErrorHandler from "../Utils/errorHandler"; // Import with ES Module syntax
-import catchAsyncError from "./catchAsyncError"; // Import with ES Module syntax
+import User from "../models/UserModel.js"; // Import with ES Module syntax
+import ErrorHandler from "../Utils/errorHandler.js"; // Import with ES Module syntax
+import catchAsyncError from "./catchAsyncError.js"; // Import with ES Module syntax
 
 export const isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
   const { token } = req.cookies;
 
   // Logging the token for testing -- REMOVE before deployment
-  console.log(token);
 
   if (!token) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
