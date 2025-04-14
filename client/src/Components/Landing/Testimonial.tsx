@@ -5,7 +5,6 @@ interface Testimonial {
   id: number;
   name: string;
   role: string;
-  company: string;
   content: string;
   rating: number;
   image: string;
@@ -16,63 +15,93 @@ const TestimonialPage: React.FC = () => {
   const [testimonials] = useState<Testimonial[]>([
     {
       id: 1,
-      name: "Sarah Johnson",
-      role: "Marketing Director",
-      company: "Innovate Inc.",
+      name: "Aarav Mehta",
+      role: "Customer",
       content:
-        "This product transformed our business operations. The interface is intuitive and the customer support is exceptional. We've seen a 40% increase in productivity since implementation.",
+        "The vegetables I received from Krishi Bazar were so fresh, it felt like they were picked that morning. It's amazing to finally get farm-direct produce without the hassle.",
       rating: 5,
-      image: "/api/placeholder/64/64",
+      image: "/images/Guy.jpeg",
     },
     {
       id: 2,
-      name: "Michael Chen",
-      role: "CTO",
-      company: "TechForward",
+      name: "Isha Kapoor",
+      role: "Customer",
       content:
-        "We evaluated several solutions before choosing this one. The robust feature set and seamless integration capabilities made it stand out from competitors. Highly recommended for growing teams.",
+        "I ordered honey and homemade pickles – both were incredibly authentic and delicious. The quality is unmatched, and I love supporting local sellers.",
       rating: 5,
-      image: "/api/placeholder/64/64",
+      image: "/images/Female.jpeg",
     },
     {
       id: 3,
-      name: "Emily Rodriguez",
-      role: "Small Business Owner",
-      company: "Artisan Crafts",
+      name: "Rajiv Khanna",
+      role: "Customer",
       content:
-        "As a small business, finding affordable solutions that don't compromise on quality is challenging. This platform delivers exceptional value and has helped me streamline operations significantly.",
+        "As someone who values healthy eating, I'm so glad I found Krishi Bazar. The fruits were juicy and sweet, and everything was neatly packed and on time.",
       rating: 4,
-      image: "/api/placeholder/64/64",
+      image: "/images/Guy.jpeg",
     },
     {
       id: 4,
-      name: "David Wilson",
-      role: "Operations Manager",
-      company: "Global Logistics",
+      name: "Sneha Reddy",
+      role: "Customer",
       content:
-        "The scalability of this solution is impressive. We started with a small implementation and have expanded across our entire organization. The transition was smooth thanks to the excellent onboarding process.",
+        "I bought fermented drinks and herbs, and both were of premium quality. You can actually taste the freshness, which you rarely get from supermarket shelves.",
       rating: 5,
-      image: "/api/placeholder/64/64",
+      image: "/images/Female.jpeg",
     },
     {
       id: 5,
-      name: "Olivia Taylor",
-      role: "Creative Director",
-      company: "Design Collective",
+      name: "Karan Deshmukh",
+      role: "Customer",
       content:
-        "The attention to detail and aesthetic considerations in this product show that the team understands both functionality and user experience. It's refreshing to use software that doesn't sacrifice beauty for utility.",
+        "Highly impressed by the variety and quality. The root vegetables and spices were packed with flavor. It’s like bringing the farmer’s market to my doorstep.",
       rating: 4,
-      image: "/api/placeholder/64/64",
+      image: "/images/Guy.jpeg",
     },
     {
       id: 6,
-      name: "James Parker",
-      role: "Financial Analyst",
-      company: "Invest Partners",
+      name: "Divya Joshi",
+      role: "Customer",
       content:
-        "The reporting features have revolutionized how we analyze data. What used to take days now takes hours, and the insights are more valuable than ever before.",
+        "This platform is a hidden gem! I ordered organic produce and homemade items, and they exceeded my expectations. Everything felt honest and fresh.",
       rating: 5,
-      image: "/api/placeholder/64/64",
+      image: "/images/Female.jpeg",
+    },
+    {
+      id: 7,
+      name: "Vikram Sharma",
+      role: "Customer",
+      content:
+        "The quality of the herbs and spices I ordered was outstanding. Fresh, aromatic, and full of flavor. I've never had such a great experience shopping for these online.",
+      rating: 5,
+      image: "/images/Guy.jpeg",
+    },
+    {
+      id: 8,
+      name: "Maya Patel",
+      role: "Customer",
+      content:
+        "My family loved the fresh fruits and organic vegetables! The packaging was excellent, and the produce was fresh and healthy. Great quality at affordable prices.",
+      rating: 5,
+      image: "/images/Female.jpeg",
+    },
+    {
+      id: 9,
+      name: "Ravi Verma",
+      role: "Customer",
+      content:
+        "Ordered raw honey and spices, and they were incredible! You can tell that these products are fresh and from trusted, sustainable sources. Highly recommend!",
+      rating: 5,
+      image: "/images/Guy.jpeg",
+    },
+    {
+      id: 10,
+      name: "Neha Singh",
+      role: "Customer",
+      content:
+        "The freshness of the vegetables was unmatched. They were crisp and flavorful, and I could tell they were straight from the farm. I'm definitely a regular now!",
+      rating: 5,
+      image: "/images/Female.jpeg",
     },
   ]);
 
@@ -84,13 +113,6 @@ const TestimonialPage: React.FC = () => {
   // Navigate to next slide
   const nextSlide = () => {
     setCurrentSlide((current) => (current + 1) % totalSlides);
-  };
-
-  // Navigate to previous slide
-  const prevSlide = () => {
-    setCurrentSlide((current) =>
-      current === 0 ? totalSlides - 1 : current - 1
-    );
   };
 
   // Navigate to specific slide
@@ -115,7 +137,7 @@ const TestimonialPage: React.FC = () => {
           <svg
             key={i}
             className={`w-5 h-5 ${
-              i < rating ? "text-amber-400" : "text-gray-300"
+              i < rating ? "text-yellow-500" : "text-gray-300"
             }`}
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -202,14 +224,14 @@ const TestimonialPage: React.FC = () => {
                                 {testimonial.name}
                               </h3>
                               <p className="text-sm text-gray-600">
-                                {testimonial.role}, {testimonial.company}
+                                {testimonial.role}
                               </p>
                               <div className="mt-1">
                                 {renderStars(testimonial.rating)}
                               </div>
                             </div>
                           </div>
-                          <blockquote className="italic text-gray-700 border-l-4 border-indigo-500 pl-4 py-1">
+                          <blockquote className="italic text-gray-700 border-l-4 border-[#0f440b] pl-4 py-1">
                             "{testimonial.content}"
                           </blockquote>
                         </div>
@@ -219,49 +241,6 @@ const TestimonialPage: React.FC = () => {
               ))}
             </div>
           </div>
-
-          {/* Navigation arrows */}
-          <button
-            className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white rounded-full w-12 h-12 shadow-lg flex items-center justify-center z-10 text-gray-800 hover:bg-gray-100"
-            onClick={prevSlide}
-            aria-label="Previous slide"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-
-          <button
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full w-12 h-12 shadow-lg flex items-center justify-center z-10 text-gray-800 hover:bg-gray-100"
-            onClick={nextSlide}
-            aria-label="Next slide"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
         </div>
 
         {/* Pagination dots */}
@@ -271,7 +250,7 @@ const TestimonialPage: React.FC = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`h-3 rounded-full transition-all duration-300 ${
-                currentSlide === index ? "bg-indigo-600 w-6" : "bg-gray-300 w-3"
+                currentSlide === index ? "bg-[#0f440b] w-6" : "bg-gray-300 w-3"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
