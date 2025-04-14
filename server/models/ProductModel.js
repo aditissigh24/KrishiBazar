@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
+    id: {
+      type: String,
+      required: [true, "Please enter product ID"],
+    },
     name: {
       type: String,
       required: [true, "Please enter product name"],
@@ -18,10 +22,10 @@ const productSchema = new mongoose.Schema(
       enum: [
         "Vegetables",
         "Fruits",
-        "Grains",
-        "Dairy",
-        "Herbs",
-        "Seeds",
+        "Herbs & Spices",
+        "Roots & Exotics",
+        "Fermented Drinks",
+        "Honey & Preservatives",
         "Other",
       ],
     },
@@ -58,11 +62,6 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
-    seller: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
     ratings: {
       type: Number,
       default: 0,
