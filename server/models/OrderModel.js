@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    buyer: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -26,18 +26,6 @@ const orderSchema = new mongoose.Schema(
         price: {
           type: Number,
           required: true,
-        },
-        weight: {
-          type: Number,
-          required: true,
-        },
-        weightUnit: {
-          type: String,
-          enum: ["g", "kg", "mg", "lb"],
-          default: "kg",
-        },
-        image: {
-          type: String,
         },
       },
     ],
@@ -90,6 +78,10 @@ const orderSchema = new mongoose.Schema(
     },
     paidAt: Date,
     deliveredAt: Date,
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
