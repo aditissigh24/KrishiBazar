@@ -6,6 +6,7 @@ import {
   forgotPassword,
   resetPassword,
   getUserProfile,
+  getAllUsers,
 } from "../controllers/UserController.js";
 
 import { isAuthenticatedUser, authorizeRoles } from "../middleware/auth.js";
@@ -23,11 +24,11 @@ router.put("/password/reset/:token", resetPassword);
 router.get("/me", isAuthenticatedUser, getUserProfile);
 
 // Admin Routes
-// router.get(
-//   "/admin/users",
-//   isAuthenticatedUser,
-//   authorizeRoles("admin"),
-//   getAllUsers
-// );
+router.get(
+  "/admin/users",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  getAllUsers
+);
 
 export default router;
