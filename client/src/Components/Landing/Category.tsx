@@ -122,26 +122,29 @@ export default function CategoryPage() {
           <div className="flex items-center justify-center py-8 mt-5">
             <h1 className="text-4xl font-bold text-[#0f440b]">How It Works</h1>
           </div>
-          <div className="flex justify-center gap-32">
-            <div className=" text-center justify-items-center">
-              <div className="rounded-full bg-[#faeedd] w-30 h-30"></div>
-              <h1 className="mt-4 text-lg font-semibold text-black">
+
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-10 sm:gap-20 px-4">
+            <div className="text-center">
+              <div className="rounded-full bg-[#faeedd] w-20 h-20 mx-auto mb-4"></div>
+              <h1 className="mt-2 text-lg font-semibold text-black">
                 Browse Farm-Fresh <br />
                 Products
               </h1>
             </div>
-            <div className=" text-center justify-items-center">
-              <div className="rounded-full bg-[#faeedd] w-30 h-30"></div>
-              <h1 className="mt-4 text-lg font-semibold text-black">
+
+            <div className="text-center">
+              <div className="rounded-full bg-[#faeedd] w-20 h-20 mx-auto mb-4"></div>
+              <h1 className="mt-2 text-lg font-semibold text-black">
                 Place Order with <br />
                 Easy Payment
               </h1>
             </div>
-            <div className="text-center justify-items-center">
-              <div className="rounded-full bg-[#faeedd] w-30 h-30"></div>
-              <h1 className="mt-4 text-lg font-semibold text-black">
-                Get it Delivered
-                <br /> to Your Door
+
+            <div className="text-center">
+              <div className="rounded-full bg-[#faeedd] w-20 h-20 mx-auto mb-4"></div>
+              <h1 className="mt-2 text-lg font-semibold text-black">
+                Get it Delivered <br />
+                to Your Door
               </h1>
             </div>
           </div>
