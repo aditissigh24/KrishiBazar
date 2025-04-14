@@ -1,5 +1,6 @@
 import CategoryPage from "../Components/Landing/Category.tsx";
 import TestimonialPage from "../Components/Landing/Testimonial.tsx";
+import Best from "../Components/Landing/Best.tsx";
 import { PiPlantFill } from "react-icons/pi";
 import { ImTruck } from "react-icons/im";
 import { IoIosPeople } from "react-icons/io";
@@ -60,31 +61,31 @@ export default function Landing() {
           </div>
         </div>
       </div>
-      <div className="bg-[#e2fb66ae] p-4">
-        <div className="flex justify-around  items-center">
+      <div className="bg-[#e2fb66ae] p-2 sm:p-4">
+        <div className="flex justify-around items-center">
           <div className="text-center justify-items-center">
-            <PiPlantFill className="w-10 h-10" />
-            <h1 className="text-lg">
-              100%<br></br> farm Fresh
+            <PiPlantFill className="w-6 h-6 sm:w-10 sm:h-10 mx-auto" />
+            <h1 className="text-xs sm:text-lg">
+              100%<br></br> Farm Fresh
             </h1>
           </div>
-          <div className="text-center  justify-items-center">
-            <ImTruck className="w-10 h-10 " />
-            <h1 className="text-lg">
-              To your doorstep
+          <div className="text-center justify-items-center">
+            <ImTruck className="w-6 h-6 sm:w-10 sm:h-10 mx-auto" />
+            <h1 className="text-xs sm:text-lg">
+              To Your Doorstep
               <br />
               Instant Delivery
             </h1>
           </div>
-          <div className="text-center  justify-items-center">
-            <GiFarmer className="w-10 h-10 " />
-            <h1 className="text-lg">
+          <div className="text-center justify-items-center">
+            <GiFarmer className="w-6 h-6 sm:w-10 sm:h-10 mx-auto" />
+            <h1 className="text-xs sm:text-lg">
               Supporting<br></br> Local Farmers
             </h1>
           </div>
-          <div className="text-center  justify-items-center">
-            <IoIosPeople className="w-10 h-10 " />
-            <h1 className="text-lg">
+          <div className="text-center justify-items-center">
+            <IoIosPeople className="w-6 h-6 sm:w-10 sm:h-10 mx-auto" />
+            <h1 className="text-xs sm:text-lg">
               Zero<br></br> Middlemen
             </h1>
           </div>
@@ -92,6 +93,7 @@ export default function Landing() {
       </div>
       <CategoryPage />
       <TestimonialPage />
+      <Best />
     </>
   );
 }
