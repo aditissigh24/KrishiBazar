@@ -54,7 +54,7 @@ const TestimonialPage: React.FC = () => {
       name: "Karan Deshmukh",
       role: "Customer",
       content:
-        "Highly impressed by the variety and quality. The root vegetables and spices were packed with flavor. It’s like bringing the farmer’s market to my doorstep.",
+        "Highly impressed by the variety and quality. The root vegetables and spices were packed with flavor. It's like bringing the farmer's market to my doorstep.",
       rating: 4,
       image: "/images/Guy.jpeg",
     },
@@ -107,8 +107,46 @@ const TestimonialPage: React.FC = () => {
 
   // State management for carousel
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slidesToShow = 3;
-  const totalSlides = Math.ceil(testimonials.length / slidesToShow);
+  // Responsive slides configuration - 1 for mobile, 2 for tablets, 3 for desktop
+  const getSlidesToShow = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 640) {
+        return 1; // Show 1 card on mobile
+      } else if (window.innerWidth < 1024) {
+        return 2; // Show 2 cards on tablet
+      } else {
+        return 3; // Show 3 cards on desktop
+      }
+    }
+    return 3; // Default for server-side rendering
+  };
+
+  const [slidesToShow, setSlidesToShow] = useState(3);
+  const [totalSlides, setTotalSlides] = useState(
+    Math.ceil(testimonials.length / slidesToShow)
+  );
+
+  // Update slidesToShow on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newSlidesToShow = getSlidesToShow();
+      setSlidesToShow(newSlidesToShow);
+      setTotalSlides(Math.ceil(testimonials.length / newSlidesToShow));
+      // Ensure current slide is still valid
+      if (currentSlide >= Math.ceil(testimonials.length / newSlidesToShow)) {
+        setCurrentSlide(0);
+      }
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up
+    return () => window.removeEventListener("resize", handleResize);
+  }, [testimonials.length, currentSlide]);
 
   // Navigate to next slide
   const nextSlide = () => {
@@ -127,7 +165,7 @@ const TestimonialPage: React.FC = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [totalSlides]);
 
   // Function to render star ratings
   const renderStars = (rating: number) => {
@@ -152,13 +190,13 @@ const TestimonialPage: React.FC = () => {
   return (
     <div className="bg-[#fdf7ee] min-h-screen">
       {/* Hero section */}
-      <div className="bg-[#0f440b] text-green-50 py-15">
+      <div className="bg-[#0f440b] text-green-50 py-7 md:py-15">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold mb-3 md:mb-6">
               What Our Clients Say
             </h1>
-            <p className="text-lg text-green-50 mb-8">
+            <p className=" text-base md:text-lg text-green-50 mb-8">
               Don't just take our word for it. See what our satisfied customers
               have to say about their experience.
             </p>
@@ -187,7 +225,7 @@ const TestimonialPage: React.FC = () => {
 
       {/* Testimonials carousel */}
       <div className="container mx-auto px-4 py-16">
-        <div className="relative px-12">
+        <div className="relative px-4 md:px-12">
           {/* Carousel container */}
           <div className="overflow-hidden">
             {/* Slides container */}
@@ -206,7 +244,7 @@ const TestimonialPage: React.FC = () => {
                     .map((testimonial) => (
                       <div
                         key={testimonial.id}
-                        className="w-full md:w-1/2 lg:w-1/3 p-4"
+                        className="w-full sm:w-1/2 lg:w-1/3 p-4"
                       >
                         <div className="bg-white rounded-lg shadow-lg p-6 h-full transition-all duration-300 hover:shadow-xl hover:translate-y-1">
                           <div className="flex items-start mb-4">
@@ -240,6 +278,50 @@ const TestimonialPage: React.FC = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Navigation arrows - only show on larger screens */}
+          <div className="hidden sm:block">
+            <button
+              onClick={() =>
+                goToSlide((currentSlide - 1 + totalSlides) % totalSlides)
+              }
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
+              aria-label="Previous slide"
+            >
+              <svg
+                className="w-6 h-6 text-[#0f440b]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={() => goToSlide((currentSlide + 1) % totalSlides)}
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
+              aria-label="Next slide"
+            >
+              <svg
+                className="w-6 h-6 text-[#0f440b]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 
