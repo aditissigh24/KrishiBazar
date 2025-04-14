@@ -34,6 +34,7 @@ export const loginUser = catchAsyncError(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
+  console.log("User found:", user);
 
   if (!user) {
     return next(new ErrorHandler("Invalid email or password", 401));
@@ -136,3 +137,5 @@ export const getUserProfile = catchAsyncError(async (req, res, next) => {
     user,
   });
 });
+//geta all users --admin dashboard
+export const getAllUsers = catchAsyncError(async (req, res, next) => {});
