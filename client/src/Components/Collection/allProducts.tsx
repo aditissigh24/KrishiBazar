@@ -1,42 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { ProductCard } from "./card";
 import { Product } from "../../Store/ProductType";
 
 export default function AllProducts() {
-  const [products] = useState<Product[]>([
-    {
-      id: "1",
-      name: "Organic Avocado",
-      price: 2.99,
-      weight: "250g",
-      image: "/api/placeholder/300/300",
-      category: "Fruits",
-    },
-    {
-      id: "2",
-      name: "Fresh Strawberries",
-      price: 4.49,
-      weight: "400g",
-      image: "/api/placeholder/300/300",
-      category: "Fruits",
-    },
-    {
-      id: "3",
-      name: "Whole Grain Bread",
-      price: 3.29,
-      weight: "500g",
-      image: "/api/placeholder/300/300",
-      category: "Bakery",
-    },
-    {
-      id: "4",
-      name: "Premium Coffee Beans",
-      price: 12.99,
-      weight: "250g",
-      image: "/api/placeholder/300/300",
-      category: "Beverages",
-    },
-  ]);
+  const [products, setProducts] = useState<Product[]>([]); // Initial state is an empty array
+  const [loading, setLoading] = useState<boolean>(true); // For loading state
+  const [error, setError] = useState<string | null>(null); // For error handling
+  useEffect(() => {
+    // Fetch data from API
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/products/"); // Replace with your API endpoint
+        setProducts(response.data.products); // Assuming the response data is an array of products
+        setLoading(false); // Set loading to false after data is fetched
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch products. Please try again later.");
+        setLoading(false); // Stop loading even if there's an error
+      }
+    };
+
+    fetchProducts();
+  }, []); // Empty dependency array means this runs once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>; // You can add a spinner or something more stylish here
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Show error message if any
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-4">

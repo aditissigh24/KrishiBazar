@@ -1,42 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProductCard } from "./card";
+import axios from "axios";
 import { Product } from "../../Store/ProductType";
 
 export default function Fruits() {
-  const [products] = useState<Product[]>([
-    {
-      id: "1",
-      name: "Organic Avocado",
-      price: 2.99,
-      weight: "250g",
-      image: "/api/placeholder/300/300",
-      category: "Fruits",
-    },
-    {
-      id: "2",
-      name: "Fresh Strawberries",
-      price: 4.49,
-      weight: "400g",
-      image: "/api/placeholder/300/300",
-      category: "Fruits",
-    },
-    {
-      id: "3",
-      name: "Whole Grain Bread",
-      price: 3.29,
-      weight: "500g",
-      image: "/api/placeholder/300/300",
-      category: "Bakery",
-    },
-    {
-      id: "4",
-      name: "Premium Coffee Beans",
-      price: 12.99,
-      weight: "250g",
-      image: "/api/placeholder/300/300",
-      category: "Beverages",
-    },
-  ]);
+  const [products, setProducts] = useState<Product[]>([]); // Initial state is an empty array
+  const [loading, setLoading] = useState<boolean>(true); // For loading state
+  const [error, setError] = useState<string | null>(null); // For error handling
+  useEffect(() => {
+    const fetchProductsByCategory = async (category: string) => {
+      try {
+        const encodedCategory = encodeURIComponent(category); // Encode the category value
+        const response = await axios.get(
+          `http://localhost:5000/products?category=${encodedCategory}`
+        );
+        setProducts(response.data.products); // Assuming the response contains a 'products' field
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch products. Please try again later.");
+        setLoading(false);
+      }
+    };
+
+    fetchProductsByCategory("Fruits"); // Example category
+  }, []); // Empty dependency array ensures this runs once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-4">

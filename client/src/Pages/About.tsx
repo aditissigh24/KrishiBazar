@@ -1,6 +1,39 @@
 import { ShieldCheck, Activity, Truck } from "lucide-react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { ProductCard } from "../Components/Collection/card";
+import { Product } from "../Store/ProductType";
 const AboutPage = () => {
+  const [products, setProducts] = useState<Product[]>([]); // Initial state is an empty array
+  const [loading, setLoading] = useState<boolean>(true); // For loading state
+  const [error, setError] = useState<string | null>(null); // For error handling
+  useEffect(() => {
+    const fetchProductsByCategory = async (category: string) => {
+      try {
+        const encodedCategory = encodeURIComponent(category); // Encode the category value
+        const response = await axios.get(
+          `http://localhost:5000/products?category=${encodedCategory}`
+        );
+        setProducts(response.data.products); // Assuming the response contains a 'products' field
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch products. Please try again later.");
+        setLoading(false);
+      }
+    };
+
+    fetchProductsByCategory("Fruits"); // Example category
+  }, []); // Empty dependency array ensures this runs once when the component mounts
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="bg-[#fdf7ee]">
       {/* Hero Section */}
@@ -216,123 +249,11 @@ const AboutPage = () => {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* Product Card 1 */}
-            <div className="rounded-lg overflow-hidden shadow-md bg-white border border-gray-100 hover:shadow-lg transition">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="/api/placeholder/400/300"
-                  alt="Organic Mixed Berries"
-                  className="w-full h-full object-cover hover:scale-105 transition"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-white bg-green-600 px-2 py-1 rounded-full">
-                    Fruits
-                  </span>
-                  <span className="text-amber-500 text-sm">★★★★★</span>
-                </div>
-                <h3 className="font-semibold mb-1">Organic Mixed Berries</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  Freshly harvested seasonal berries
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-green-700">$6.99</span>
-                  <button className="bg-green-600 hover:bg-green-700 text-white text-sm py-1 px-3 rounded-full transition">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product Card 2 */}
-            <div className="rounded-lg overflow-hidden shadow-md bg-white border border-gray-100 hover:shadow-lg transition">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="/api/placeholder/400/300"
-                  alt="Kombucha Variety Pack"
-                  className="w-full h-full object-cover hover:scale-105 transition"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-white bg-green-600 px-2 py-1 rounded-full">
-                    Fermented
-                  </span>
-                  <span className="text-amber-500 text-sm">★★★★☆</span>
-                </div>
-                <h3 className="font-semibold mb-1">Kombucha Variety Pack</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  Probiotic-rich fermented tea
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-green-700">$14.99</span>
-                  <button className="bg-green-600 hover:bg-green-700 text-white text-sm py-1 px-3 rounded-full transition">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product Card 3 */}
-            <div className="rounded-lg overflow-hidden shadow-md bg-white border border-gray-100 hover:shadow-lg transition">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="/api/placeholder/400/300"
-                  alt="Culinary Herb Collection"
-                  className="w-full h-full object-cover hover:scale-105 transition"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-white bg-green-600 px-2 py-1 rounded-full">
-                    Herbs
-                  </span>
-                  <span className="text-amber-500 text-sm">★★★★★</span>
-                </div>
-                <h3 className="font-semibold mb-1">Culinary Herb Collection</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  Fresh-cut cooking herbs
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-green-700">$8.49</span>
-                  <button className="bg-green-600 hover:bg-green-700 text-white text-sm py-1 px-3 rounded-full transition">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product Card 4 */}
-            <div className="rounded-lg overflow-hidden shadow-md bg-white border border-gray-100 hover:shadow-lg transition">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="/api/placeholder/400/300"
-                  alt="Global Spice Set"
-                  className="w-full h-full object-cover hover:scale-105 transition"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-white bg-green-600 px-2 py-1 rounded-full">
-                    Spices
-                  </span>
-                  <span className="text-amber-500 text-sm">★★★★☆</span>
-                </div>
-                <h3 className="font-semibold mb-1">Global Spice Set</h3>
-                <p className="text-sm text-gray-600 mb-2">
-                  Organic spice blends
-                </p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-green-700">$19.99</span>
-                  <button className="bg-green-600 hover:bg-green-700 text-white text-sm py-1 px-3 rounded-full transition">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
+            {/* Product Card  */}
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
-
           <div className="text-center mt-10">
             <a
               href="/products"

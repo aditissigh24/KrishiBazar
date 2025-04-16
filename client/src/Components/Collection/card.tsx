@@ -54,7 +54,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="text-gray-500">{product.weight}</div>
           )}
           <div className="font-bold text-gray-900">
-            ${product.price.toFixed(2)}
+            ₹{product.price.toFixed(2)}
           </div>
         </div>
 
