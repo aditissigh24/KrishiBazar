@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ProductCard } from "./card";
-import { CartProvider } from "../../Store/CartStore";
 import { Product } from "../../Store/ProductType";
 
 export default function Honey() {
@@ -40,22 +39,20 @@ export default function Honey() {
   ]);
 
   return (
-    <CartProvider>
-      <div className="max-w-7xl mx-auto p-4">
-        {/* Header Section */}
-        <div className=" justify-center gap-6 mb-5 md:mb-10 py-5 md:py-10">
-          <h1 className="text-2xl sm:text-3xl text-[#0f440b] font-semibold text-center">
-            Honey & Preservatives
-          </h1>
-        </div>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+    <div className="max-w-7xl mx-auto p-4">
+      {/* Header Section */}
+      <div className=" justify-center gap-6 mb-5 md:mb-10 py-5 md:py-10">
+        <h1 className="text-2xl sm:text-3xl text-[#0f440b] font-semibold text-center">
+          Honey & Preservatives
+        </h1>
       </div>
-    </CartProvider>
+
+      {/* Products Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </div>
   );
 }

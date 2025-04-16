@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // Sample category data - in a real app, this would come from your data source
 const categories = [
@@ -7,48 +8,56 @@ const categories = [
     name: "Fresh Fruits",
     image: "/images/C5.jpeg",
     color: "bg-red-100",
+    path: "/category/fruits",
   },
   {
     id: 2,
     name: "Vegetables",
     image: "/images/C2.jpeg",
     color: "bg-green-100",
+    path: "/category/vegetables",
   },
   {
     id: 3,
     name: "Herbs & Spices",
     image: "/images/C3.jpeg",
     color: "bg-lime-100",
+    path: "/category/herbs-and-spices",
   },
   {
     id: 4,
     name: "Root & Exotics",
     image: "/images/C7.jpeg",
     color: "bg-green-100",
+    path: "/category/roots-and-exotics",
   },
   {
     id: 5,
     name: "Honey & Preserves",
     image: "/images/C1.jpeg",
     color: "bg-orange-100",
+    path: "/category/honey-and-preservatives",
   },
   {
     id: 6,
     name: "Fermented Drinks",
     image: "/images/C6.jpeg",
     color: "bg-teal-100",
+    path: "/category/fermented-drinks",
   },
   {
     id: 7,
     name: "Coming Soon",
     image: "/images/C4.jpeg",
     color: "bg-teal-100",
+    path: "",
   },
   {
     id: 8,
     name: "Coming Soon",
     image: "/images/C4.jpeg",
     color: "bg-teal-100",
+    path: "",
   },
 ];
 
@@ -57,6 +66,7 @@ type Category = {
   name: string;
   image: string;
   color: string;
+  path: string;
 };
 
 const CategoryCard = ({ category }: { category: Category }) => {
@@ -81,9 +91,11 @@ const CategoryCard = ({ category }: { category: Category }) => {
         {/* View Products Button - Only visible on hover and not for "Coming Soon" items */}
         {isHovered && !isComingSoon && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <button className="bg-[#176112] cursor-pointer  text-white font-medium py-3 px-4 rounded-xl text-sm shadow-md transition-colors">
-              Explore
-            </button>
+            <Link to={category.path}>
+              <button className="bg-[#176112] cursor-pointer  text-white font-medium py-3 px-4 rounded-xl text-sm shadow-md transition-colors">
+                Explore
+              </button>
+            </Link>
           </div>
         )}
       </div>

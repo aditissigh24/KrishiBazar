@@ -11,7 +11,7 @@ const Navbar = () => {
   const categories = [
     { name: "Vegetables", path: "/category/vegetables" },
     { name: "Fruits", path: "/category/fruits" },
-    { name: "Herbs & Greens", path: "/category/herbs-and-greens" },
+    { name: "Herbs & Spices", path: "/category/herbs-and-spices" },
     { name: "Root & Exotic", path: "/category/roots-and-exotics" },
     { name: "Honey & Preservative", path: "/category/honey-and-preservatives" },
     { name: "Fermented Drinks", path: "/category/fermented-drinks" },

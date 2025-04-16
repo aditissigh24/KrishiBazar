@@ -1,6 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { Product } from "../../Store/ProductType"; // Adjust path as needed
 import { useCart } from "../../Store/CartStore";
+import { CartItem } from "../../Store/ProductType"; // adjust path as needed
 
 interface ProductCardProps {
   product: Product;
@@ -18,7 +19,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    addToCart(product);
+    const cartItem = {
+      ...product,
+      image: product.image || "/api/placeholder/300/300", // Ensure image is a string
+      quantity: 1,
+    } as CartItem;
+
+    addToCart(cartItem);
     alert(`Added ${product.name} to cart!`);
   };
 

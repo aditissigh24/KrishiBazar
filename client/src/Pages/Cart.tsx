@@ -8,15 +8,13 @@ export default function ShoppingCart() {
   const [note, setNote] = useState<string>("");
 
   // Force render using counter if needed
-  const [, setRenderCount] = useState(0);
-  const forceRender = () => setRenderCount((prev) => prev + 1);
 
   const handleUpdateQuantity = (id: string, change: number) => {
     const item = cart.find((item) => item.id === id);
     if (item) {
       const newQuantity = Math.max(1, item.quantity + change);
       updateQuantity(id, newQuantity);
-      forceRender(); // Force re-render if needed
+      // Force re-render if needed
     }
   };
 
@@ -73,7 +71,7 @@ export default function ShoppingCart() {
                   <button
                     onClick={() => {
                       removeFromCart(item.id);
-                      forceRender(); // Force re-render if needed
+                      // Force re-render if needed
                     }}
                     className="text-red-500 text-sm flex items-center mt-1"
                   >
