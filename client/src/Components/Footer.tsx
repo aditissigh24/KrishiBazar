@@ -71,7 +71,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="/about"
                   className="text-gray-300 hover:text-white transition"
                 >
                   About us
@@ -103,7 +103,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/contact"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Contact Us
@@ -134,7 +134,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/cart"
                   className="text-gray-300 hover:text-white transition"
                 >
                   View Cart
@@ -174,7 +174,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/category"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Compare products
@@ -253,30 +253,31 @@ const Footer = () => {
               <li className="flex">
                 <MapPin size={18} className="mr-2 flex-shrink-0 mt-1" />
                 <span className="text-gray-300">
-                  Linsted Farm,Linsted Lane, Headley, GU35 8SD,UK
+                  10, Vatika City Market, Sector 49, Sohna-Gurgaon Road,
+                  Gurgaon: 122018, INDIA
                 </span>
               </li>
               <li className="flex">
                 <Phone size={18} className="mr-2 flex-shrink-0" />
                 <a
-                  href="tel:02070968420"
+                  href="tel:9873937528"
                   className="text-gray-300 hover:text-white transition"
                 >
-                  0207 096 8420
+                  +91-9873937528
                 </a>
               </li>
               <li className="flex">
                 <Mail size={18} className="mr-2 flex-shrink-0" />
                 <a
-                  href="mailto:info@farmooshed.com"
+                  href="mailto:team.krishibazar@gmail.com"
                   className="text-gray-300 hover:text-white transition"
                 >
-                  info@farmooshed.com
+                  team.krishibazar@gmail.com
                 </a>
               </li>
               <li className="flex">
                 <Clock size={18} className="mr-2 flex-shrink-0" />
-                <span className="text-gray-300">10:00 - 18:00, Mon - Sat</span>
+                <span className="text-gray-300">7:00 - 18:00, Mon - Sun</span>
               </li>
             </ul>
           </div>

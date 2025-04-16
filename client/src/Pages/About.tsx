@@ -2,7 +2,7 @@ import { ShieldCheck, Activity, Truck } from "lucide-react";
 
 const AboutPage = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-[#fdf7ee]">
       {/* Hero Section */}
       <div className="relative w-full h-96">
         <img
