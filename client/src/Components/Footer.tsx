@@ -272,7 +272,7 @@ const Footer = () => {
                   href="mailto:team.krishibazar@gmail.com"
                   className="text-gray-300 hover:text-white transition"
                 >
-                  team.krishibazar@gmail.com
+                  <span>team.krishibazar@gmail.com</span>
                 </a>
               </li>
               <li className="flex">
