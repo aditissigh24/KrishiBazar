@@ -20,16 +20,28 @@ class ApiFeatures {
     return this;
   }
 
-  search() {
-    if (this.queryStr.keyword) {
-      const keyword = {
-        name: {
-          $regex: this.queryStr.keyword,
-          $options: "i", // case-insensitive
-        },
-      };
-      this.query = this.query.find({ ...keyword });
+  filter() {
+    const queryCopy = { ...this.queryStr };
+    const removeFields = ["keyword", "page", "limit", "sort"];
+    removeFields.forEach((key) => delete queryCopy[key]);
+
+    // Case-insensitive filtering for category and section
+    if (queryCopy.category) {
+      queryCopy.category = { $regex: queryCopy.category, $options: "i" }; // Case-insensitive category
     }
+
+    if (queryCopy.section) {
+      queryCopy.section = { $regex: queryCopy.section, $options: "i" }; // Case-insensitive section
+    }
+
+    // Handle MongoDB filter operators (like gt, gte, lt, lte, etc.)
+    let queryStr = JSON.stringify(queryCopy);
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    );
+
+    this.query = this.query.find(JSON.parse(queryStr));
     return this;
   }
 

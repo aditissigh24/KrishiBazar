@@ -1,13 +1,8 @@
-import express, { json } from "express";
 import { config } from "dotenv";
-import cors from "cors";
+
 import app from "./app.js";
 import connectDB from "./config/db.js";
 config();
-
-// Middleware
-app.use(cors());
-app.use(json()); // To parse JSON requests
 
 // Example route
 app.get("/", (req, res) => {
