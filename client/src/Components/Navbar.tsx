@@ -9,6 +9,8 @@ const Navbar = () => {
     "Fruits",
     "Herbs & Greens",
     "Root & Exotic",
+    "Honey & Preservative",
+    "Fermented Drinks",
   ];
 
   return (
