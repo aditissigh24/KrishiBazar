@@ -218,9 +218,11 @@ const Navbar = () => {
               <BsFillPersonFill className="w-8 h-8" />
             </a>
             {/* Login Button */}
-            <button className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200">
-              Login
-            </button>
+            <a href="/auth">
+              <button className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200">
+                Login
+              </button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}

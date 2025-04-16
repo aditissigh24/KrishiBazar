@@ -10,9 +10,10 @@ import Userprofile from "./Pages/Userprofile";
 import Signup from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Footer from "./Components/Footer";
+import AuthPages from "./Pages/Auth";
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#fdf7ee]">
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -22,7 +23,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Userprofile />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/auth" element={<AuthPages />} />
           <Route path="/login" element={<Login />} />
         </Routes>
         <Footer />
