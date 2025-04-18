@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useCart } from "../Store/CartStore";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronLeft, CreditCard, Building, Truck } from "lucide-react";
+import {
+  ChevronLeft,
+  CreditCard,
+  Building,
+  Truck,
+  CheckCircle,
+} from "lucide-react";
 import axios from "axios";
 
 export default function CheckoutPage() {
@@ -9,6 +15,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -92,8 +99,13 @@ export default function CheckoutPage() {
       // Clear the cart
       clearCart();
 
-      // Redirect to order confirmation page (you'll need to create this)
-      navigate(`/order-confirmation/${response.data.order._id}`);
+      // Show success animation instead of navigating
+      setOrderSuccess(true);
+
+      // Optionally navigate back to home page after a delay
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
     } catch (err: any) {
       console.error("Error placing order:", err);
       setError(
@@ -104,6 +116,35 @@ export default function CheckoutPage() {
       setIsSubmitting(false);
     }
   };
+
+  // Success animation overlay
+  if (orderSuccess) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-95 z-50">
+        <div className="text-center p-8 max-w-md mx-auto">
+          <div className="mb-6 flex justify-center">
+            <CheckCircle size={80} className="text-green-600 animate-bounce" />
+          </div>
+          <h2 className="text-3xl font-bold text-green-600 mb-4">
+            Order Placed Successfully!
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Thank you for your purchase. Your order has been received and is
+            being processed.
+          </p>
+          <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden mb-6">
+            <div
+              className="bg-green-600 h-full animate-pulse"
+              style={{ width: "100%" }}
+            ></div>
+          </div>
+          <p className="text-sm text-gray-500">
+            You will be redirected to the home page in a few seconds...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

@@ -11,15 +11,40 @@ interface UserData {
   address: string;
 }
 
-interface Order {
+interface OrderItem {
+  product: string;
+  name: string;
+  quantity: number;
+  price: number;
+  _id: string;
   id: string;
-  date: string;
-  total: number;
-  status: string;
-  items: number;
 }
 
-const API_BASE_URL = "http://localhost:5000";
+interface ShippingInfo {
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+}
+
+interface Order {
+  id: string;
+  shippingInfo: ShippingInfo;
+  orderItems: OrderItem[];
+  paymentMethod: string;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  orderStatus: string;
+  paidAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const API_BASE_URL = "https://krishibazar-sgjm.onrender.com";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -56,13 +81,17 @@ const ProfilePage = () => {
         );
 
         // Fetch order history
-        // const ordersResponse = await axios.get(
-        //   `${API_BASE_URL}/api/orders`,
-        //   axiosConfig
-        // );
+        const ordersResponse = await axios.get(
+          `${API_BASE_URL}/order/viewOrders`,
+          axiosConfig
+        );
 
         setUserData(userResponse.data.user);
-        // setOrderHistory(ordersResponse.data);
+
+        // Update to match the API response structure
+        if (ordersResponse.data.success && ordersResponse.data.orders) {
+          setOrderHistory(ordersResponse.data.orders);
+        }
       } catch (err) {
         console.error("Error fetching profile data:", err);
         setError("Failed to load profile data. Please try again later.");
@@ -89,6 +118,21 @@ const ProfilePage = () => {
       // Even if there's an error with the API call, we still want to clear local state
       navigate("/auth");
     }
+  };
+
+  // Format date from ISO string to readable format
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  // Get total number of items in an order
+  const getTotalItems = (orderItems: OrderItem[]) => {
+    return orderItems.reduce((total, item) => total + item.quantity, 0);
   };
 
   // Show loading state
@@ -231,25 +275,46 @@ const ProfilePage = () => {
                     >
                       <div className="flex flex-wrap justify-between items-center">
                         <div>
-                          <h3 className="font-medium">{order.id}</h3>
+                          <h3 className="font-medium">
+                            Order #{order.id.substring(order.id.length - 8)}
+                          </h3>
                           <p className="text-sm text-gray-500">
-                            Placed on {order.date}
+                            Placed on {formatDate(order.createdAt)}
                           </p>
                         </div>
                         <div className="text-right">
                           <div className="font-bold">
-                            ${order.total.toFixed(2)}
+                            ₹{order.totalPrice.toFixed(2)}
                           </div>
-                          <span className="inline-block px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                            {order.status}
+                          <span
+                            className={`inline-block px-2 py-1 text-xs rounded-full ${
+                              order.orderStatus === "Delivered"
+                                ? "bg-green-100 text-green-800"
+                                : order.orderStatus === "Processing"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-yellow-100 text-yellow-800"
+                            }`}
+                          >
+                            {order.orderStatus}
                           </span>
                         </div>
                       </div>
-                      <div className="mt-3 flex justify-between items-center">
-                        <div className="text-sm">{order.items} items</div>
-                        <button className="text-blue-600 hover:text-blue-800 text-sm">
-                          View Details
-                        </button>
+                      <div className="mt-3 pt-2 border-t">
+                        <div className="text-sm mb-1">
+                          Shipping to: {order.shippingInfo.city},{" "}
+                          {order.shippingInfo.state}
+                        </div>
+                        <div className="text-sm mb-1">
+                          Payment: {order.paymentMethod}
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <div className="text-sm">
+                            {getTotalItems(order.orderItems)} items
+                          </div>
+                          <button className="text-blue-600 hover:text-blue-800 text-sm">
+                            View Details
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
