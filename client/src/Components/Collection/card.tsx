@@ -21,7 +21,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const handleAddToCart = () => {
     const cartItem = {
       ...product,
-      image: product.image || "/api/placeholder/300/300", // Ensure image is a string
+      image: product.images?.[0]?.url || "/api/placeholder/300/300", // Ensure image is a string
       quantity: 1,
     } as CartItem;
 
@@ -35,7 +35,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     >
       <div className="relative">
         <img
-          src={product.image || "/api/placeholder/300/300"}
+          src={product.images?.[0]?.url || "/api/placeholder/300/300"}
           alt={product.name}
           className="w-full h-36 sm:h-48 object-cover"
         />
