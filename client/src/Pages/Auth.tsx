@@ -1,5 +1,7 @@
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../Store/AuthContext";
 
 type LoginFormState = {
   email: string;
@@ -15,6 +17,7 @@ type SignupFormState = {
 export default function AuthPages() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const [loginForm, setLoginForm] = useState<LoginFormState>({
     email: "",
@@ -27,16 +30,49 @@ export default function AuthPages() {
     password: "",
   });
 
-  const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const { login, signup, currentUser, loading, error } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (currentUser) {
+      // Redirect to intended destination or default to home
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    }
+  }, [currentUser, navigate, location]);
+
+  const handleLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login submitted:", loginForm);
-    alert(`Login attempt with: ${loginForm.email}`);
+    setFormError(null);
+
+    try {
+      await login(loginForm.email, loginForm.password);
+      // No need to navigate here, useEffect will do it when currentUser is set
+    } catch (err) {
+      setFormError("Failed to log in. Please check your credentials.");
+      console.error("Login error:", err);
+    }
   };
 
-  const handleSignupSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSignupSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Signup submitted:", signupForm);
-    alert(`Signup attempt for: ${signupForm.name} (${signupForm.email})`);
+    setFormError(null);
+
+    // Basic validation
+    if (signupForm.password.length < 6) {
+      setFormError("Password must be at least 6 characters");
+      return;
+    }
+
+    try {
+      await signup(signupForm.email, signupForm.password, signupForm.name);
+      // No need to navigate here, useEffect will do it when currentUser is set
+    } catch (err) {
+      setFormError("Failed to create account. Please try again.");
+      console.error("Signup error:", err);
+    }
   };
 
   const updateLoginForm = (field: keyof LoginFormState, value: string) => {
@@ -55,7 +91,7 @@ export default function AuthPages() {
 
   return (
     <div className="py-20 flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full  bg-white p-8 rounded-lg shadow-md">
+      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         {/* Header */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-[#0f440b]">
@@ -65,12 +101,22 @@ export default function AuthPages() {
             {isLogin ? "New Customer? " : "Already have an account? "}
             <button
               className="font-medium text-blue-600 hover:text-blue-500"
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setFormError(null); // Clear any errors when switching forms
+              }}
             >
               {isLogin ? "Sign up" : "Sign in"}
             </button>
           </p>
         </div>
+
+        {/* Error message display */}
+        {(formError || error) && (
+          <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {formError || error}
+          </div>
+        )}
 
         {/* Login Form */}
         {isLogin ? (
@@ -152,9 +198,12 @@ export default function AuthPages() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                disabled={loading}
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                  loading ? "bg-gray-400" : "bg-[#176112] hover:bg-[#176112ac]"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                Sign in
+                {loading ? "Signing in..." : "Sign in"}
               </button>
             </div>
           </form>
@@ -251,9 +300,12 @@ export default function AuthPages() {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] "
+                disabled={loading}
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                  loading ? "bg-gray-400" : "bg-[#176112] hover:bg-[#176112ac]"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                Sign up
+                {loading ? "Creating account..." : "Sign up"}
               </button>
             </div>
           </form>
