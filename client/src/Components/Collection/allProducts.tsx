@@ -11,7 +11,9 @@ export default function AllProducts() {
     // Fetch data from API
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products/"); // Replace with your API endpoint
+        const response = await axios.get(
+          "https://krishibazar-sgjm.onrender.com/products/"
+        ); // Replace with your API endpoint
         setProducts(response.data.products); // Assuming the response data is an array of products
         setLoading(false); // Set loading to false after data is fetched
       } catch (err) {

@@ -12,7 +12,7 @@ export default function Honey() {
       try {
         const encodedCategory = encodeURIComponent(category); // Encode the category value
         const response = await axios.get(
-          `http://localhost:5000/products?category=${encodedCategory}`
+          `https://krishibazar-sgjm.onrender.com/products?category=${encodedCategory}`
         );
         setProducts(response.data.products); // Assuming the response contains a 'products' field
         setLoading(false);
