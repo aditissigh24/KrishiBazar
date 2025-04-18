@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { ShoppingBag, ChevronLeft, Trash2, Plus, Minus } from "lucide-react";
 import { useCart } from "../Store/CartStore"; // Adjust the import path as needed
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../Store/AuthContext";
 export default function ShoppingCart() {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
   const [note, setNote] = useState<string>("");
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
+  const handleCheckout = () => {
+    if (currentUser) {
+      navigate("/checkout");
+    } else {
+      navigate("/login", { state: { from: "/checkout" } });
+    }
+  };
   // Force render using counter if needed
 
   const handleUpdateQuantity = (id: string, change: number) => {
@@ -84,7 +93,7 @@ export default function ShoppingCart() {
                 <div className="md:hidden text-xs text-gray-500 mb-1">
                   Price:
                 </div>
-                $
+                ₹
                 {typeof item.price === "number"
                   ? item.price.toFixed(2)
                   : "0.00"}
@@ -156,10 +165,15 @@ export default function ShoppingCart() {
           </div>
 
           <div className="flex justify-end">
-            <button className="hover:bg-[#176112ac] cursor-pointer bg-[#176112] text-white py-3 px-6 rounded-md font-medium flex items-center">
-              <ShoppingBag size={18} className="mr-2" />
-              Checkout
-            </button>
+            <Link to="/checkout">
+              <button
+                onClick={handleCheckout}
+                className="hover:bg-[#176112ac] cursor-pointer bg-[#176112] text-white py-3 px-6 rounded-md font-medium flex items-center"
+              >
+                <ShoppingBag size={18} className="mr-2" />
+                Checkout
+              </button>
+            </Link>
           </div>
         </>
       )}
