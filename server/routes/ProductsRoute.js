@@ -38,6 +38,7 @@ router.put(
   "/updateProduct/:id",
   isAuthenticatedUser,
   authorizeRoles("admin"),
+  uploadImages,
   updateProduct
 );
 
