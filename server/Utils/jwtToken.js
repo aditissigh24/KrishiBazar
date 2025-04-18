@@ -5,11 +5,11 @@ const sendToken = (user, statusCode, res) => {
   // Cookie options
   const options = {
     expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000 // e.g. 5 days
+      Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // set to true in production
-    sameSite: "Strict",
+    secure: process.env.NODE_ENV === "production", // true on Vercel/Render
+    sameSite: "None", // ❗ Required for cross-origin cookie sharing
   };
 
   res.status(statusCode).cookie("token", token, options).json({
