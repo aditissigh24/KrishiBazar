@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { GiBeachBag } from "react-icons/gi";
 import { BsFillPersonFill } from "react-icons/bs";
+import { useAuth } from "../Store/AuthContext"; // Update this import path to match your project structure
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Use the auth context instead of local state
+  const { currentUser, logout } = useAuth();
 
   // Updated category objects with display names and route paths
   const categories = [
@@ -16,6 +20,16 @@ const Navbar = () => {
     { name: "Honey & Preservative", path: "/category/honey-and-preservatives" },
     { name: "Fermented Drinks", path: "/category/fermented-drinks" },
   ];
+
+  // Handle logout click
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // No need to update local state as the context will handle it
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <nav className="bg-[#a0c162fb] shadow-lg top-0 sticky z-999">
@@ -140,6 +154,23 @@ const Navbar = () => {
             >
               Contact
             </Link>
+
+            {/* Login/Logout Link in Mobile Menu */}
+            {currentUser ? (
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
 
@@ -229,12 +260,25 @@ const Navbar = () => {
             <Link to="/profile" className="text-gray-700 hover:text-white">
               <BsFillPersonFill className="w-8 h-8" />
             </Link>
-            {/* Login Button */}
-            <Link to="/auth">
-              <button className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200">
-                Login
+
+            {/* Show Login button if user is not authenticated */}
+            {!currentUser && (
+              <Link to="/auth">
+                <button className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200">
+                  Login
+                </button>
+              </Link>
+            )}
+
+            {/* Show Logout button if user is authenticated */}
+            {currentUser && (
+              <button
+                onClick={handleLogout}
+                className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200"
+              >
+                Logout
               </button>
-            </Link>
+            )}
           </div>
         </div>
       </div>
