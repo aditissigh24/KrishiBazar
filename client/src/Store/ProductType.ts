@@ -4,7 +4,7 @@ export interface Product {
   name: string;
   price: number;
   weight?: string;
-  image?: string;
+  images: { url: string; public_id: string }[];
   category?: string;
 }
 // Example in types.ts
