@@ -17,14 +17,19 @@ export const createProduct = catchAsyncError(async (req, res) => {
     stock,
     ratings,
   } = req.body;
-  const image = req.files.map((file) => file.path);
+
+  const images = req.files.map((file) => ({
+    public_id: file.filename,
+    url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
+  }));
+
   const product = await Product.create({
     name,
     id,
     description,
     category,
     price,
-    image,
+    images,
     weight,
     weightUnit,
     stock,
