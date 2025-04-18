@@ -3,7 +3,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartInitializer } from "./Store/CartStore";
 // Context and components
-
+import { AuthProvider } from "./Store/AuthContext";
+import ProtectedRoute from "./Components/ProtectedRoute";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 
@@ -16,6 +17,7 @@ const Userprofile = React.lazy(() => import("./Pages/Userprofile"));
 const Signup = React.lazy(() => import("./Pages/Signup"));
 const Login = React.lazy(() => import("./Pages/Login"));
 const AuthPages = React.lazy(() => import("./Pages/Auth"));
+const Checkout = React.lazy(() => import("./Pages/Checkout"));
 
 // Collection components
 const Fruits = React.lazy(() => import("./Components/Collection/Fruits"));
@@ -39,35 +41,53 @@ function App() {
   return (
     <div className="min-h-screen bg-[#fdf7ee]">
       <BrowserRouter>
-        <Navbar />
-        <React.Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            {/* Main pages */}
-            <Route path="/" element={<Landing />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/profile" element={<Userprofile />} />
+        <AuthProvider>
+          <Navbar />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              {/* Main pages */}
+              <Route path="/" element={<Landing />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/cart" element={<Cart />} />
 
-            {/* Auth routes */}
-            <Route path="/auth" element={<AuthPages />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+              {/* Auth routes */}
+              <Route path="/auth" element={<AuthPages />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
 
-            {/* Product category routes - using consistent URL format */}
-            <Route path="/category" element={<AllProducts />} />
-            <Route path="/category/fruits" element={<Fruits />} />
-            <Route path="/category/vegetables" element={<Vegetables />} />
-            <Route path="/category/herbs-and-spices" element={<Herbs />} />
-            <Route path="/category/roots-and-exotics" element={<Roots />} />
-            <Route path="/category/fermented-drinks" element={<Drinks />} />
-            <Route
-              path="/category/honey-and-preservatives"
-              element={<Honey />}
-            />
-          </Routes>
-        </React.Suspense>
-        <Footer />
+              {/* Product category routes - using consistent URL format */}
+              <Route path="/category" element={<AllProducts />} />
+              <Route path="/category/fruits" element={<Fruits />} />
+              <Route path="/category/vegetables" element={<Vegetables />} />
+              <Route path="/category/herbs-and-spices" element={<Herbs />} />
+              <Route path="/category/roots-and-exotics" element={<Roots />} />
+              <Route path="/category/fermented-drinks" element={<Drinks />} />
+              <Route
+                path="/category/honey-and-preservatives"
+                element={<Honey />}
+              />
+              {/* Protected routes */}
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Userprofile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </React.Suspense>
+          <Footer />
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
