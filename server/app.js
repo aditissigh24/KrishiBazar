@@ -8,7 +8,7 @@ app.use(json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://krishi-bazar-lime.vercel.app",
     credentials: true, // if you're using cookies/auth
   })
 );
