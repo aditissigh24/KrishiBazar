@@ -17,6 +17,9 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
+router.get("/status", isAuthenticatedUser, (req, res) => {
+  res.json({ authenticated: true, user: req.user });
+});
 router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);
 
