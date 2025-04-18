@@ -35,3 +35,21 @@ export const createOrder = catchAsyncError(async (req, res, next) => {
     order,
   });
 });
+//get previous orders
+export const viewOrder = catchAsyncError(async (req, res, next) => {
+  const orders = await Order.find({ user: req.user._id });
+
+  if (!orders || orders.length === 0) {
+    return res.status(200).json({
+      success: true,
+      message: "No orders found",
+      orders: [],
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    count: orders.length,
+    orders,
+  });
+});
