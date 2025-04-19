@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { GiBeachBag } from "react-icons/gi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useAuth } from "../Store/AuthContext"; // Update this import path to match your project structure
-
+import { useCart } from "../Store/CartStore";
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,7 +20,8 @@ const Navbar = () => {
     { name: "Honey & Preservative", path: "/category/honey-and-preservatives" },
     { name: "Fermented Drinks", path: "/category/fermented-drinks" },
   ];
-
+  const { cart } = useCart();
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   // Handle logout click
   const handleLogout = async () => {
     try {
@@ -253,8 +254,16 @@ const Navbar = () => {
           {/* Right Side Icons */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Cart Icon */}
-            <Link to="/cart" className="text-gray-700 hover:text-white">
-              <GiBeachBag className="w-8 h-8" />
+            <Link
+              to="/cart"
+              className="text-gray-700 hover:text-white relative"
+            >
+              <GiBeachBag className="w-8 h-8 object-cover" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#176112] text-white w-5 h-5 rounded-full flex items-center justify-center text-xs">
+                  {totalItems}
+                </span>
+              )}
             </Link>
             {/* User Profile Icon */}
             <Link to="/profile" className="text-gray-700 hover:text-white">
