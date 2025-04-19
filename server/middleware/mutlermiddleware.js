@@ -1,34 +1,35 @@
 import multer, { diskStorage } from "multer";
 import { join, extname } from "path";
-import { existsSync, mkdirSync } from "fs";
 import { fileURLToPath } from "url";
+import { dirname } from "path";
+import { existsSync, mkdirSync } from "fs";
 
-// Convert __dirname equivalent for ES modules
+// 🛠️ Fix __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = join(__filename, "..");
+const __dirname = dirname(__filename);
 
-// Define destination path for uploads folder
-const uploadDir = join(__dirname, "../../uploads");
+// ✅ Define upload path
+const destinationPath = join(__dirname, "./uploads");
 
-// Ensure the uploads directory exists
-if (!existsSync(uploadDir)) {
-  mkdirSync(uploadDir, { recursive: true }); // Create the 'uploads' folder if it doesn't exist
+// ✅ Ensure the uploads directory exists
+if (!existsSync(destinationPath)) {
+  mkdirSync(destinationPath, { recursive: true });
 }
 
-// Set Storage engine
+// ✅ Set up storage
 const storage = diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadDir);
+    cb(null, destinationPath);
   },
   filename: function (req, file, cb) {
     cb(null, `${file.fieldname}-${Date.now()}${extname(file.originalname)}`);
   },
 });
 
-// Set up multer with size limit (30MB) and storage configuration
+// ✅ Set up multer
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 30 }, // 30MB file size limit
+  limits: { fileSize: 1024 * 1024 * 30 }, // 30MB
 });
 
 export default upload;

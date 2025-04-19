@@ -43,7 +43,7 @@ export const createProduct = catchAsyncError(async (req, res) => {
 });
 
 // Uploading images
-export const uploadImages = upload.array("image");
+export const uploadImages = upload.array("images");
 
 //get all products
 export const getAllProducts = catchAsyncError(async (req, res) => {

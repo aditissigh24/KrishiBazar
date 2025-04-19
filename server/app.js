@@ -8,7 +8,7 @@ app.use(json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://krishi-bazar-lime.vercel.app",
+    origin: ["https://krishi-bazar-lime.vercel.app", "http://localhost:5000"],
     credentials: true, // if you're using cookies/auth
   })
 );
@@ -27,7 +27,7 @@ app.use("/user", user_route);
 app.use("/order", order_route);
 // Middleware for Errors
 app.use(errorMiddleware);
-const uploadDir = path.join(__dirname, "../../uploads");
+const uploadDir = path.join(__dirname, "./uploads");
 console.log("Serving files from:", uploadDir); // Log the computed static file path
 app.use("/uploads", express.static(uploadDir));
 
