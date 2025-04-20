@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Star, Minus, Plus, ShoppingCart, ArrowLeft } from "lucide-react";
 import { useCart } from "../../Store/CartStore"; // Adjust path as needed
-
+import Loader from "../Loader";
 const API_BASE_URL = "https://krishibazar-sgjm.onrender.com";
 
 type Product = {
@@ -160,11 +160,7 @@ export default function ProductDetailPage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error || !product) {

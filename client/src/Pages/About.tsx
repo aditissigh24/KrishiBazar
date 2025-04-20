@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ProductCard } from "../Components/Collection/card";
 import { Product } from "../Store/ProductType";
+import Loader from "../Components/Loader";
 const AboutPage = () => {
   const [products, setProducts] = useState<Product[]>([]); // Initial state is an empty array
   const [loading, setLoading] = useState<boolean>(true); // For loading state
@@ -27,7 +28,7 @@ const AboutPage = () => {
   }, []); // Empty dependency array ensures this runs once when the component mounts
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -35,7 +36,7 @@ const AboutPage = () => {
   }
 
   return (
-    <div className="bg-[#fdf7ee]">
+    <div className="bg-[#fdf7ee] min-h-screen">
       {/* Hero Section */}
       <div className="relative w-full h-96">
         <img

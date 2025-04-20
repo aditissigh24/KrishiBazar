@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ProductCard } from "./card";
 import axios from "axios";
 import { Product } from "../../Store/ProductType";
-
+import Loader from "../Loader";
 export default function Vegetables() {
   const [products, setProducts] = useState<Product[]>([]); // Initial state is an empty array
   const [loading, setLoading] = useState<boolean>(true); // For loading state
@@ -27,7 +27,7 @@ export default function Vegetables() {
   }, []); // Empty dependency array ensures this runs once when the component mounts
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {

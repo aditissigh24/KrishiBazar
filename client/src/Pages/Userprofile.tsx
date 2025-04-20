@@ -3,7 +3,7 @@ import { User, Settings, Package, LogOut } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Store/AuthContext";
-
+import Loader from "../Components/Loader";
 interface UserData {
   name: string;
   email: string;
@@ -42,6 +42,11 @@ interface Order {
   paidAt: string;
   createdAt: string;
   updatedAt: string;
+}
+interface OrderCardProps {
+  order: Order;
+  formatDate: (dateString: string) => string;
+  getTotalItems: (orderItems: OrderItem[]) => number;
 }
 
 const API_BASE_URL = "https://krishibazar-sgjm.onrender.com";
@@ -134,14 +139,82 @@ const ProfilePage = () => {
   const getTotalItems = (orderItems: OrderItem[]) => {
     return orderItems.reduce((total, item) => total + item.quantity, 0);
   };
+  const OrderCard: React.FC<OrderCardProps> = ({
+    order,
+    formatDate,
+    getTotalItems,
+  }) => {
+    const [showDetails, setShowDetails] = useState(false);
 
-  // Show loading state
-  if (loading) {
     return (
-      <div className="max-w-6xl mx-auto p-4 mt-8 flex justify-center items-center h-64">
-        <div className="text-xl text-gray-600">Loading profile data...</div>
+      <div className="border border-[#0f440b] rounded-lg p-4 hover:shadow-md transition-shadow">
+        <div className="flex flex-wrap justify-between items-center">
+          <div>
+            <h3 className="font-medium">
+              Order #{order.id.substring(order.id.length - 8)}
+            </h3>
+            <p className="text-sm text-gray-500">
+              Placed on {formatDate(order.createdAt)}
+            </p>
+          </div>
+          <div className="text-right">
+            <div className="font-bold">₹{order.totalPrice.toFixed(2)}</div>
+            <span
+              className={`inline-block px-2 py-1 text-xs rounded-full ${
+                order.orderStatus === "Delivered"
+                  ? "bg-green-100 text-green-800"
+                  : order.orderStatus === "Processing"
+                  ? "bg-blue-100 text-blue-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
+              {order.orderStatus}
+            </span>
+          </div>
+        </div>
+        <div className="mt-3 pt-2 border-t">
+          <div className="text-sm mb-1">
+            Shipping to: {order.shippingInfo.city}, {order.shippingInfo.state}
+          </div>
+          <div className="text-sm mb-1">Payment: {order.paymentMethod}</div>
+          <div className="flex justify-between items-center mt-2">
+            <div className="text-sm">
+              {getTotalItems(order.orderItems)} items
+            </div>
+            <button
+              className="text-[#1e6719] font-semibold cursor-pointer hover:text-[#0f440b80] text-sm"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              {showDetails ? "Hide Details" : "View Details"}
+            </button>
+          </div>
+
+          {/* Collapsible Order Items */}
+          {showDetails && (
+            <div className="mt-3 pt-2 border-t">
+              <p className="text-sm font-medium mb-2">Order Items:</p>
+              <div className="space-y-2">
+                {order.orderItems.map((item) => (
+                  <div key={item._id} className="flex justify-between text-sm">
+                    <span>
+                      {item.name} : {item.quantity} quantity
+                    </span>
+                    <span>₹{(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
+  };
+  const navigateToForgotPassword = () => {
+    navigate("/forgot-password");
+  };
+  // Show loading state
+  if (loading) {
+    return <Loader />;
   }
 
   // Show error state
@@ -163,11 +236,13 @@ const ProfilePage = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-4 mt-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">My Profile</h1>
+      <h1 className="text-3xl font-bold text-center text-[#0f440b] mb-12">
+        My Profile
+      </h1>
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar */}
-        <div className="w-full md:w-64 bg-white rounded-lg shadow p-4">
+        <div className="w-full md:w-64 md:self-start bg-white rounded-lg shadow p-4">
           <nav>
             <ul className="space-y-2">
               <li>
@@ -255,7 +330,7 @@ const ProfilePage = () => {
                   <div className="text-gray-800">{userData.address}</div>
                 </div>
               </div>
-              <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+              <button className="hover:bg-[#176112ac] mt-8 cursor-pointer bg-[#0e301fe9] text-white px-6 py-3 rounded-md font-medium  transition-colors">
                 Edit Information
               </button>
             </div>
@@ -268,56 +343,17 @@ const ProfilePage = () => {
               </h2>
               {orderHistory.length > 0 ? (
                 <div className="space-y-4">
-                  {orderHistory.map((order) => (
-                    <div
-                      key={order.id}
-                      className="border rounded-lg p-4 hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex flex-wrap justify-between items-center">
-                        <div>
-                          <h3 className="font-medium">
-                            Order #{order.id.substring(order.id.length - 8)}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            Placed on {formatDate(order.createdAt)}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-bold">
-                            ₹{order.totalPrice.toFixed(2)}
-                          </div>
-                          <span
-                            className={`inline-block px-2 py-1 text-xs rounded-full ${
-                              order.orderStatus === "Delivered"
-                                ? "bg-green-100 text-green-800"
-                                : order.orderStatus === "Processing"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-yellow-100 text-yellow-800"
-                            }`}
-                          >
-                            {order.orderStatus}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="mt-3 pt-2 border-t">
-                        <div className="text-sm mb-1">
-                          Shipping to: {order.shippingInfo.city},{" "}
-                          {order.shippingInfo.state}
-                        </div>
-                        <div className="text-sm mb-1">
-                          Payment: {order.paymentMethod}
-                        </div>
-                        <div className="flex justify-between items-center mt-2">
-                          <div className="text-sm">
-                            {getTotalItems(order.orderItems)} items
-                          </div>
-                          <button className="text-blue-600 hover:text-blue-800 text-sm">
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  {orderHistory
+                    .slice()
+                    .reverse()
+                    .map((order) => (
+                      <OrderCard
+                        key={order.id}
+                        order={order}
+                        formatDate={formatDate}
+                        getTotalItems={getTotalItems}
+                      />
+                    ))}
                 </div>
               ) : (
                 <div className="text-center py-8 text-gray-500">
@@ -335,7 +371,10 @@ const ProfilePage = () => {
               <div className="space-y-6">
                 <div>
                   <h3 className="font-medium mb-2">Password</h3>
-                  <button className="text-blue-600 hover:text-blue-800">
+                  <button
+                    onClick={navigateToForgotPassword}
+                    className="text-[#0e301fe9] hover:text-[#176112ac]"
+                  >
                     Change Password
                   </button>
                 </div>
@@ -352,12 +391,6 @@ const ProfilePage = () => {
                       Receive email notifications
                     </label>
                   </div>
-                </div>
-                <div className="pt-4">
-                  <h3 className="text-red-600 font-medium mb-2">Danger Zone</h3>
-                  <button className="text-red-600 hover:text-red-800">
-                    Delete Account
-                  </button>
                 </div>
               </div>
             </div>

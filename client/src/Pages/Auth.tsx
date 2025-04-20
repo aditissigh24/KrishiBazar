@@ -88,6 +88,9 @@ export default function AuthPages() {
       [field]: value,
     }));
   };
+  const navigateToForgotPassword = () => {
+    navigate("/forgot-password");
+  };
 
   return (
     <div className="py-20 flex items-center justify-center bg-gray-100">
@@ -185,12 +188,13 @@ export default function AuthPages() {
             {/* Remember and Forgot */}
             <div className="flex items-center justify-between">
               <div className="text-base">
-                <a
-                  href="#"
+                <button
+                  type="button"
+                  onClick={navigateToForgotPassword}
                   className="font-medium text-blue-600 hover:text-blue-500"
                 >
                   Forgot your password?
-                </a>
+                </button>
               </div>
             </div>
 
