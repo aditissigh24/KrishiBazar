@@ -7,6 +7,7 @@ import { AuthProvider } from "./Store/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
+import Loader from "./Components/Loader";
 
 // Lazy-loaded pages
 const Landing = React.lazy(() => import("./Pages/Landing"));
@@ -14,9 +15,17 @@ const About = React.lazy(() => import("./Pages/About"));
 const Contact = React.lazy(() => import("./Pages/Contact"));
 const Cart = React.lazy(() => import("./Pages/Cart"));
 const Userprofile = React.lazy(() => import("./Pages/Userprofile"));
-const Signup = React.lazy(() => import("./Pages/Signup"));
-const Login = React.lazy(() => import("./Pages/Login"));
 const AuthPages = React.lazy(() => import("./Pages/Auth"));
+const ForgotPasswordPage = React.lazy(() =>
+  import("./Components/ForgotPassword").then((module) => ({
+    default: module.ForgotPasswordPage,
+  }))
+);
+const ResetPasswordPage = React.lazy(() =>
+  import("./Components/ForgotPassword").then((module) => ({
+    default: module.ResetPasswordPage,
+  }))
+);
 const Checkout = React.lazy(() => import("./Pages/Checkout"));
 const ProductDetailPage = React.lazy(
   () => import("./Components/Collection/SingleProduct")
@@ -42,57 +51,62 @@ const AllProducts = React.lazy(
 function App() {
   useCartInitializer();
   return (
-    <div className="min-h-screen bg-[#fdf7ee]">
+    <div className="flex flex-col min-h-screen bg-[#fdf7ee]">
       <BrowserRouter>
         <AuthProvider>
           <Navbar />
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              {/* Main pages */}
-              <Route path="/" element={<Landing />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/cart" element={<Cart />} />
+          <main className="flex-1">
+            <React.Suspense fallback={<Loader />}>
+              <Routes>
+                {/* Main pages */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/cart" element={<Cart />} />
 
-              {/* Auth routes */}
-              <Route path="/auth" element={<AuthPages />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
+                {/* Auth routes */}
+                <Route path="/auth" element={<AuthPages />} />
+                <Route
+                  path="/forgot-password"
+                  element={<ForgotPasswordPage />}
+                />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-              {/* Product category routes - using consistent URL format */}
-              <Route path="/category" element={<AllProducts />} />
-              <Route path="/category/fruits" element={<Fruits />} />
-              <Route path="/category/vegetables" element={<Vegetables />} />
-              <Route path="/category/herbs-and-spices" element={<Herbs />} />
-              <Route path="/category/roots-and-exotics" element={<Roots />} />
-              <Route path="/category/fermented-drinks" element={<Drinks />} />
-              <Route
-                path="/products/:productId"
-                element={<ProductDetailPage />}
-              />
-              <Route
-                path="/category/honey-and-preservatives"
-                element={<Honey />}
-              />
-              {/* Protected routes */}
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Userprofile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/checkout"
-                element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </React.Suspense>
+                {/* Product category routes - using consistent URL format */}
+                <Route path="/products" element={<AllProducts />} />
+                <Route path="/products/fruits" element={<Fruits />} />
+                <Route path="/products/vegetables" element={<Vegetables />} />
+                <Route path="/products/herbs-and-spices" element={<Herbs />} />
+                <Route path="/products/roots-and-exotics" element={<Roots />} />
+                <Route path="/products/fermented-drinks" element={<Drinks />} />
+                <Route
+                  path="/products/:productId"
+                  element={<ProductDetailPage />}
+                />
+                <Route
+                  path="/category/honey-and-preservatives"
+                  element={<Honey />}
+                />
+                {/* Protected routes */}
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Userprofile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <ProtectedRoute>
+                      <Checkout />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </React.Suspense>
+          </main>
           <Footer />
         </AuthProvider>
       </BrowserRouter>
