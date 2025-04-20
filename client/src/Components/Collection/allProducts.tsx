@@ -4,7 +4,7 @@ import { ProductCard } from "./card";
 import { Product } from "../../Store/ProductType";
 import Pagination from "../Collection/pagination";
 import { useSearchParams } from "react-router-dom";
-
+import Loader from "../Loader";
 export default function AllProducts() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
@@ -18,6 +18,8 @@ export default function AllProducts() {
 
   // Get current page from URL or default to 1
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const keyword = searchParams.get("keyword") || "";
+  const category = searchParams.get("category") || "";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,7 +29,9 @@ export default function AllProducts() {
       try {
         // Add limit param to match your backend's expected format
         const response = await axios.get(
-          `http://localhost:5000/products/?page=${currentPage}&limit=${productsPerPage}`
+          `https://krishibazar-sgjm.onrender.com/products?page=${currentPage}&limit=${productsPerPage}${
+            keyword ? `&keyword=${encodeURIComponent(keyword)}` : ""
+          }${category ? `&category=${encodeURIComponent(category)}` : ""}`
         );
 
         if (response.data && response.data.success) {
@@ -70,7 +74,7 @@ export default function AllProducts() {
     fetchProducts();
     // Scroll to top when page changes
     window.scrollTo(0, 0);
-  }, [currentPage, productsPerPage]);
+  }, [currentPage, productsPerPage, keyword, category]);
 
   // Handle page change
   const handlePageChange = (page: number) => {
@@ -78,11 +82,7 @@ export default function AllProducts() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0f440b]"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -106,7 +106,7 @@ export default function AllProducts() {
       {/* Header Section */}
       <div className="justify-center gap-6 mb-5  py-5 md:py-10">
         <h1 className="text-2xl sm:text-3xl text-[#0f440b] font-semibold text-center">
-          All Products
+          {keyword ? `Results for "${keyword}"` : "All Products"}
         </h1>
       </div>
 
