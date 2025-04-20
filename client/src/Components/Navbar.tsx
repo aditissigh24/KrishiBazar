@@ -13,12 +13,12 @@ const Navbar = () => {
 
   // Updated category objects with display names and route paths
   const categories = [
-    { name: "Vegetables", path: "/category/vegetables" },
-    { name: "Fruits", path: "/category/fruits" },
-    { name: "Herbs & Spices", path: "/category/herbs-and-spices" },
-    { name: "Root & Exotic", path: "/category/roots-and-exotics" },
-    { name: "Honey & Preservative", path: "/category/honey-and-preservatives" },
-    { name: "Fermented Drinks", path: "/category/fermented-drinks" },
+    { name: "Vegetables", path: "/products/vegetables" },
+    { name: "Fruits", path: "/products/fruits" },
+    { name: "Herbs & Spices", path: "/products/herbs-and-spices" },
+    { name: "Root & Exotic", path: "/products/roots-and-exotics" },
+    { name: "Honey & Preservative", path: "/products/honey-and-preservatives" },
+    { name: "Fermented Drinks", path: "/products/fermented-drinks" },
   ];
   const { cart } = useCart();
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -202,7 +202,7 @@ const Navbar = () => {
             {/* Category Dropdown */}
 
             <div className="relative group">
-              <Link to="/category">
+              <Link to="/products">
                 <button
                   className="text-black font-semibold cursor-pointer text-lg hover:text-white hover:bg-[#176112] p-2 rounded-full px-3 flex items-center"
                   onMouseEnter={() => setIsDropdownOpen(true)}
