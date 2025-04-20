@@ -9,6 +9,7 @@ import {
   updateProduct,
 } from "../controllers/ProductController.js";
 import { isAuthenticatedUser, authorizeRoles } from "../middleware/auth.js";
+import upload from "../middleware/mutlermiddleware.js";
 const router = express.Router();
 
 //Public Routes
@@ -29,7 +30,7 @@ router.post(
   "/createProduct",
   isAuthenticatedUser,
   authorizeRoles("admin"),
-  uploadImages,
+  upload.array("images"),
   createProduct
 );
 

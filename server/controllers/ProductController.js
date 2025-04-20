@@ -3,6 +3,7 @@ import ApiFeatures from "../Utils/apiFeatures.js";
 import ErrorHandler from "../Utils/errorHandler.js";
 import catchAsyncError from "../middleware/catchAsyncError.js";
 import upload from "../middleware/mutlermiddleware.js";
+import cloudinary from "../middleware/cloudinary.js";
 
 export const createProduct = catchAsyncError(async (req, res) => {
   req.body.user = req.user.id;
@@ -18,10 +19,26 @@ export const createProduct = catchAsyncError(async (req, res) => {
     ratings,
   } = req.body;
 
-  const images = req.files.map((file) => ({
-    public_id: file.filename,
-    url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
-  }));
+  // Uploading images to Cloudinary
+  const imageUploadPromises = req.files.map(async (file) => {
+    return new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "products", // Optional: Specify folder to organize images in Cloudinary
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve({
+            public_id: result.public_id,
+            url: result.secure_url,
+          });
+        }
+      );
+      stream.end(file.buffer);
+    });
+  });
+
+  const images = await Promise.all(imageUploadPromises);
 
   const product = await Product.create({
     name,
