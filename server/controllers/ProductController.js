@@ -64,25 +64,37 @@ export const uploadImages = upload.array("images");
 
 //get all products
 // get all products
+//get all products
 export const getAllProducts = catchAsyncError(async (req, res) => {
   const resultsPerPage = Number(req.query.limit) || 20;
   const currentPage = Number(req.query.page) || 1;
 
-  // Get total count first
-  const productCount = await Product.countDocuments();
-
+  // Apply search feature first
   const apifeature = new ApiFeatures(Product.find(), req.query)
+    .search() // Add the search method here
     .filter()
+    .sort() // Add sorting as well for better user experience
     .pagination(resultsPerPage);
 
   const products = await apifeature.query;
+
+  // Get total count with the same search and filter criteria (but without pagination)
+  const countFeature = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter();
+
+  const filteredProductCount = await Product.countDocuments(
+    countFeature.query.getFilter()
+  );
+  const totalProductCount = await Product.countDocuments();
 
   res.status(200).json({
     success: true,
     products,
     pagination: {
-      totalItems: productCount,
-      totalPages: Math.ceil(productCount / resultsPerPage),
+      totalItems: filteredProductCount,
+      totalProducts: totalProductCount,
+      totalPages: Math.ceil(filteredProductCount / resultsPerPage),
       currentPage,
       resultsPerPage,
     },

@@ -3,20 +3,18 @@ class ApiFeatures {
     this.query = query;
     this.queryStr = queryStr;
   }
+  search() {
+    const keyword = this.queryStr.keyword
+      ? {
+          $or: [
+            { name: { $regex: this.queryStr.keyword, $options: "i" } },
+            { description: { $regex: this.queryStr.keyword, $options: "i" } },
+            // Add any other fields you want to search
+          ],
+        }
+      : {};
 
-  filter() {
-    const queryCopy = { ...this.queryStr };
-    const removeFields = ["keyword", "page", "limit", "sort"];
-    removeFields.forEach((key) => delete queryCopy[key]);
-
-    // Handle MongoDB filter operators
-    let queryStr = JSON.stringify(queryCopy);
-    queryStr = queryStr.replace(
-      /\b(gt|gte|lt|lte|in)\b/g,
-      (match) => `$${match}`
-    );
-
-    this.query = this.query.find(JSON.parse(queryStr));
+    this.query = this.query.find({ ...keyword });
     return this;
   }
 
