@@ -57,7 +57,7 @@ export default function ShoppingCart() {
           <div className="py-8 text-center">
             <p className="text-gray-500 mb-4">Your cart is empty</p>
             <Link
-              to="/category"
+              to="/products"
               className="text-[#176112] hover:underline font-medium"
             >
               Browse our products

@@ -84,7 +84,7 @@ function App() {
                   element={<ProductDetailPage />}
                 />
                 <Route
-                  path="/category/honey-and-preservatives"
+                  path="/products/honey-and-preservatives"
                   element={<Honey />}
                 />
                 {/* Protected routes */}

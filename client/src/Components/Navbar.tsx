@@ -113,7 +113,7 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              to="/category"
+              to="/products"
               className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
               <button

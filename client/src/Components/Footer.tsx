@@ -174,7 +174,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="/category"
+                  href="/products"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Compare products
