@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CategoryPage from "../Components/Landing/Category.tsx";
 import TestimonialPage from "../Components/Landing/Testimonial.tsx";
 import Best from "../Components/Landing/Best.tsx";
@@ -5,7 +7,39 @@ import { PiPlantFill } from "react-icons/pi";
 import { ImTruck } from "react-icons/im";
 import { IoIosPeople } from "react-icons/io";
 import { GiFarmer } from "react-icons/gi";
+
 export default function Landing() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const knownCategories = [
+    "Fruits",
+    "Vegetables",
+    "Fermented Drinks",
+    "Herbs & Spices",
+    "Honey & Preservatives",
+    "Roots & Exotic",
+  ];
+
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+
+    if (query) {
+      const matchedCategory = knownCategories.find((cat) =>
+        cat.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (matchedCategory) {
+        // If it's a category, go to category route
+        navigate(`/products?category=${encodeURIComponent(matchedCategory)}`);
+      } else {
+        // Else do a keyword search
+        navigate(`/products?keyword=${encodeURIComponent(query)}`);
+      }
+    }
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -46,17 +80,30 @@ export default function Landing() {
               farmers.
             </p>
             {/* Search Bar */}
-            <div className="max-w-md  mx-auto">
-              <div className="relative flex items-center">
+            <div className="max-w-md mx-auto">
+              <form
+                onSubmit={handleSearch}
+                className="relative flex items-center"
+              >
                 <input
                   type="text"
                   placeholder="Search for fresh produce..."
                   className="w-full px-5 py-3 border rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#176112] pr-12"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="absolute right-2 bg-[#176112] text-white p-2 px-4 rounded-full hover:bg-[#176112ac] cursor-pointer transition duration-300">
-                  Show Now
+                <datalist id="search-suggestions">
+                  {knownCategories.map((cat) => (
+                    <option key={cat} value={cat} />
+                  ))}
+                </datalist>
+                <button
+                  type="submit"
+                  className="absolute right-2 bg-[#176112] text-white p-2 px-4 rounded-full hover:bg-[#176112ac] cursor-pointer transition duration-300"
+                >
+                  Shop Now
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
