@@ -63,15 +63,29 @@ export const createProduct = catchAsyncError(async (req, res) => {
 export const uploadImages = upload.array("images");
 
 //get all products
+// get all products
 export const getAllProducts = catchAsyncError(async (req, res) => {
-  const resultsPerPage = 20;
+  const resultsPerPage = Number(req.query.limit) || 20;
+  const currentPage = Number(req.query.page) || 1;
+
+  // Get total count first
+  const productCount = await Product.countDocuments();
+
   const apifeature = new ApiFeatures(Product.find(), req.query)
     .filter()
     .pagination(resultsPerPage);
+
   const products = await apifeature.query;
-  res.status(201).json({
+
+  res.status(200).json({
     success: true,
     products,
+    pagination: {
+      totalItems: productCount,
+      totalPages: Math.ceil(productCount / resultsPerPage),
+      currentPage,
+      resultsPerPage,
+    },
   });
 });
 
