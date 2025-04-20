@@ -106,7 +106,11 @@ export default function AllProducts() {
       {/* Header Section */}
       <div className="justify-center gap-6 mb-5  py-5 md:py-10">
         <h1 className="text-2xl sm:text-3xl text-[#0f440b] font-semibold text-center">
-          {keyword ? `Results for "${keyword}"` : "All Products"}
+          {keyword
+            ? `Results for "${keyword}"`
+            : category
+            ? `Results for "${category}"`
+            : "All Products"}
         </h1>
       </div>
 
