@@ -119,7 +119,7 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Passwords do not match", 400));
   }
 
-  user.password = await bcrypt.hash(req.body.password, 10);
+  user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
 
