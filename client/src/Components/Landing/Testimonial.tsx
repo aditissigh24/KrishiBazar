@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 // TypeScript interface for testimonial data
 interface Testimonial {
   id: number;
@@ -344,9 +344,11 @@ const TestimonialPage: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6">
             Ready to join our satisfied customers?
           </h2>
-          <button className="bg-[#176112] hover:bg-[#176112ac] cursor-pointer text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all hover:shadow-xl">
-            Get Started Today
-          </button>
+          <Link to="/auth">
+            <button className="bg-[#176112] hover:bg-[#176112ac] cursor-pointer text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all hover:shadow-xl">
+              Get Started Today
+            </button>
+          </Link>
         </div>
       </div>
     </div>
