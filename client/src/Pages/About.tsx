@@ -74,7 +74,7 @@ const AboutPage = () => {
       </section>
 
       {/* What We Do Section */}
-      <section className=" py-16">
+      <section className=" md:py-16">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row-reverse items-center">
             <div className="md:w-1/2 md:pl-12">
@@ -110,7 +110,7 @@ const AboutPage = () => {
                 </li>
               </ul>
             </div>
-            <div className="md:w-1/2 mb-8 md:mb-0">
+            <div className="md:w-1/2 mt-4 md:mt-0 mb-8 md:mb-0">
               <div className="h-80 w-full overflow-hidden rounded-lg shadow-lg">
                 <img
                   src="/images/bg7.jpg"
@@ -124,7 +124,7 @@ const AboutPage = () => {
       </section>
 
       {/* Sustainability Section */}
-      <section className="bg-green-50 py-24">
+      <section className="bg-green-50 py-8 md:py-24">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 md:pr-12">
@@ -166,7 +166,7 @@ const AboutPage = () => {
               </ul>
             </div>
             <div className="md:w-1/2 mb-8 md:mb-0 order-first md:order-last">
-              <div className="h-80 w-full overflow-hidden rounded-lg shadow-lg">
+              <div className="h-80 w-[350px] sm:w-[480px] md:w-full overflow-hidden rounded-lg shadow-lg">
                 <img
                   src="/images/bg5.jpeg"
                   alt="Sustainable farming practices"
@@ -179,7 +179,7 @@ const AboutPage = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className=" py-16">
+      <section className="py-6 md:py-16">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row-reverse items-center">
             <div className="md:w-1/2 md:pl-12">
@@ -229,7 +229,7 @@ const AboutPage = () => {
                 </div>
               </div>
             </div>
-            <div className="md:w-1/2 mb-8 md:mb-0">
+            <div className="md:w-1/2 mt-5 md:mt-0 mb-8 md:mb-0">
               <div className="h-80 w-full overflow-hidden rounded-lg shadow-lg">
                 <img
                   src="/images/bg4.jpg"
@@ -243,13 +243,13 @@ const AboutPage = () => {
       </section>
 
       {/* Featured Products Section */}
-      <section className="py-16">
+      <section className=" py-5 md:py-16">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl text-[#0f440b] font-bold text-center mb-12">
             Our Fruits Collection
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {/* Product Card  */}
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
