@@ -4,8 +4,8 @@ import { LuBadgeIndianRupee } from "react-icons/lu";
 
 export default function Best() {
   return (
-    <div className="hidden lg:block bg-amber-50 min-h-screen relative">
-      <div className="w-full h-full md:h-96 lg:h-screen relative">
+    <div className="hidden lg:block  min-h-screen relative">
+      <div className="w-full h-full -bottom-20 md:h-96 lg:h-screen relative">
         <img
           src="/images/DarkBG.jpeg"
           alt="Background"

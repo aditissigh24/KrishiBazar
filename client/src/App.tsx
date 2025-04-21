@@ -30,6 +30,9 @@ const Checkout = React.lazy(() => import("./Pages/Checkout"));
 const ProductDetailPage = React.lazy(
   () => import("./Components/Collection/SingleProduct")
 );
+const FAQ = React.lazy(() => import("./Components/FAQ"));
+const Terms = React.lazy(() => import("./Components/Terms"));
+const Privacy = React.lazy(() => import("./Components/Privacy"));
 
 // Collection components
 const Fruits = React.lazy(() => import("./Components/Collection/Fruits"));
@@ -63,6 +66,9 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/faqs" element={<FAQ />} />
+                <Route path="/terms-and-conditions" element={<Terms />} />
+                <Route path="/security-policy" element={<Privacy />} />
 
                 {/* Auth routes */}
                 <Route path="/auth" element={<AuthPages />} />

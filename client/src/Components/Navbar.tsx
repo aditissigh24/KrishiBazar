@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GiBeachBag } from "react-icons/gi";
 import { BsFillPersonFill } from "react-icons/bs";
@@ -22,6 +22,29 @@ const Navbar = () => {
   ];
   const { cart } = useCart();
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   // Handle logout click
   const handleLogout = async () => {
     try {
@@ -38,11 +61,7 @@ const Navbar = () => {
         {/* Mobile Top Bar */}
         <div className="flex justify-between items-center h-16 md:hidden">
           <div className="flex-shrink-0">
-            <img
-              className="h-8 w-auto"
-              src="https://placehold.co/100x40?text=LOGO"
-              alt="Logo"
-            />
+            <img className="h-16 w-auto" src="/images/logo2.png" alt="Logo" />
           </div>
           <div className="flex items-center space-x-4">
             {/* Cart Icon */}
@@ -95,7 +114,8 @@ const Navbar = () => {
 
         {/* Mobile Menu - Sliding from right */}
         <div
-          className={`fixed top-16 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out md:hidden ${
+          ref={mobileMenuRef}
+          className={`fixed top-16 right-0 h-full w-1/2 bg-white shadow-lg transform transition-transform duration-300 ease-in-out md:hidden ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -178,11 +198,9 @@ const Navbar = () => {
         <div className="hidden md:flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <img
-              className="h-8 w-auto"
-              src="https://placehold.co/100x40?text=LOGO"
-              alt="Logo"
-            />
+            <a href="/">
+              <img className="h-16 w-auto" src="/images/logo2.png" alt="Logo" />
+            </a>
           </div>
 
           {/* Navigation Links */}
@@ -273,7 +291,7 @@ const Navbar = () => {
             {/* Show Login button if user is not authenticated */}
             {!currentUser && (
               <Link to="/auth">
-                <button className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200">
+                <button className="text-white  hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200">
                   Login
                 </button>
               </Link>
@@ -283,7 +301,7 @@ const Navbar = () => {
             {currentUser && (
               <button
                 onClick={handleLogout}
-                className="text-white hover:bg-[#176112ac] cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200"
+                className="text-white hover:bg-[#176112ac] md:hidden lg:block cursor-pointer bg-[#176112] font-bold p-2 rounded-full px-5 transition duration-200"
               >
                 Logout
               </button>

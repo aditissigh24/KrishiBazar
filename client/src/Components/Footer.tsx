@@ -77,25 +77,18 @@ const Footer = () => {
                   About us
                 </a>
               </li>
+
               <li>
                 <a
-                  href="#"
+                  href="/security-policy"
                   className="text-gray-300 hover:text-white transition"
                 >
-                  Delivery Information
+                  Security and Privacy Policy
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
+                  href="/terms-and-conditions"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Terms & Conditions
@@ -111,7 +104,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/faqs"
                   className="text-gray-300 hover:text-white transition"
                 >
                   FAQ
@@ -126,7 +119,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="/auth"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Sign In
@@ -140,107 +133,22 @@ const Footer = () => {
                   View Cart
                 </a>
               </li>
+
               <li>
                 <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  My Wishlist
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
+                  href="/profile"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Track My Order
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Help Ticket
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Shipping Details
-                </a>
-              </li>
+
               <li>
                 <a
                   href="/products"
                   className="text-gray-300 hover:text-white transition"
                 >
                   Compare products
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Corporate Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Corporate</h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Become a Merchant
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Become a Rider
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Foodeliver Business
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Foodeliver Careers
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Our Suppliers
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Accessibility
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition"
-                >
-                  Promotions
                 </a>
               </li>
             </ul>

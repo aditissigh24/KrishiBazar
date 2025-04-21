@@ -31,7 +31,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     } as CartItem;
 
     addToCart(cartItem);
-    alert(`Added ${product.name} to cart!`);
   };
 
   const handleCardClick = () => {

@@ -69,9 +69,9 @@ export default function Landing() {
           />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 py-10 sm:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 py-10 md:py-20 lg:py-32">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-6xl font-bold text-[#0f440b] mb-6">
+            <h1 className="text-3xl md:text-6xl font-bold text-[#0f440b] mb-6">
               Fresh from Farm <br />
               Straight to Your Table
             </h1>
