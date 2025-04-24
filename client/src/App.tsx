@@ -8,6 +8,7 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import Loader from "./Components/Loader";
+import ScrollToTop from "./Store/ScrollToTop";
 
 // Lazy-loaded pages
 const Landing = React.lazy(() => import("./Pages/Landing"));
@@ -57,6 +58,7 @@ function App() {
     <div className="flex flex-col min-h-screen bg-[#fdf7ee]">
       <BrowserRouter>
         <AuthProvider>
+          <ScrollToTop />
           <Navbar />
           <main className="flex-1">
             <React.Suspense fallback={<Loader />}>
