@@ -7,7 +7,7 @@ import { useCart } from "../Store/CartStore";
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const timeoutRef = useRef<number>(null);
   // Use the auth context instead of local state
   const { currentUser, logout } = useAuth();
 
@@ -23,6 +23,21 @@ const Navbar = () => {
   const { cart } = useCart();
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const handleMouseEnter = () => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setIsDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Set a timeout to close the dropdown after a delay
+    timeoutRef.current = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 200); // 500ms delay before closing
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -204,7 +219,7 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden mt-2 md:flex  space-x-8">
             <Link
               to="/"
               className="text-black font-semibold text-lg hover:text-white hover:bg-[#176112] p-2 rounded-full px-5"
@@ -223,8 +238,8 @@ const Navbar = () => {
               <Link to="/products">
                 <button
                   className="text-black font-semibold cursor-pointer text-lg hover:text-white hover:bg-[#176112] p-2 rounded-full px-3 flex items-center"
-                  onMouseEnter={() => setIsDropdownOpen(true)}
-                  onMouseLeave={() => setIsDropdownOpen(false)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   Categories
                   <svg
@@ -243,9 +258,9 @@ const Navbar = () => {
               {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <div
-                  className="absolute justify-items-center top-[55px] -left-7 right w-48 rounded-md  shadow-lg bg-white z-50"
-                  onMouseEnter={() => setIsDropdownOpen(true)}
-                  onMouseLeave={() => setIsDropdownOpen(false)}
+                  className="absolute justify-items-center top-[50px] -left-7 right w-48 rounded-md duration-300 shadow-lg bg-white z-50"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <div className="py-1">
                     {categories.map((category) => (

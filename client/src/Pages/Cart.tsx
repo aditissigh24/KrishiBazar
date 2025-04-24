@@ -106,16 +106,16 @@ export default function ShoppingCart() {
                   </div>
                   <button
                     onClick={() => handleUpdateQuantity(item.id, -1)}
-                    className="w-8 h-8 flex items-center justify-center border rounded-l"
+                    className="w-8 h-8 bg-[#7a9d3c] hover:bg-[#799d3c92] disabled:opacity-50 flex items-center justify-center border rounded-l"
                   >
                     <Minus size={16} />
                   </button>
-                  <div className="w-10 h-8 flex items-center justify-center border-t border-b">
+                  <div className="w-10  h-8 flex items-center justify-center border-t border-b">
                     {item.quantity}
                   </div>
                   <button
                     onClick={() => handleUpdateQuantity(item.id, 1)}
-                    className="w-8 h-8 flex items-center justify-center border rounded-r"
+                    className="w-8 h-8 bg-[#7a9d3c] hover:bg-[#799d3c92] disabled:opacity-50 flex items-center justify-center border rounded-r"
                   >
                     <Plus size={16} />
                   </button>
@@ -125,7 +125,7 @@ export default function ShoppingCart() {
                   <div className="md:hidden text-xs text-gray-500 mb-1">
                     Total:
                   </div>
-                  $
+                  ₹
                   {typeof item.price === "number"
                     ? (item.price * item.quantity).toFixed(2)
                     : "0.00"}
@@ -158,7 +158,7 @@ export default function ShoppingCart() {
               <div className="flex justify-between mb-2">
                 <span className="font-medium">Subtotal</span>
                 <span className="font-medium">
-                  ${getCartTotal().toFixed(2)}
+                  ₹{getCartTotal().toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between mb-2 text-gray-600">
