@@ -219,7 +219,7 @@ const Navbar = () => {
             </Link>
             {/* Category Dropdown */}
 
-            <div className="relative group">
+            <div className="relative justify-items-center group">
               <Link to="/products">
                 <button
                   className="text-black font-semibold cursor-pointer text-lg hover:text-white hover:bg-[#176112] p-2 rounded-full px-3 flex items-center"
@@ -243,7 +243,7 @@ const Navbar = () => {
               {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <div
-                  className="absolute -left-7 w-48 rounded-md shadow-lg bg-white z-50"
+                  className="absolute justify-items-center top-[55px] -left-7 right w-48 rounded-md  shadow-lg bg-white z-50"
                   onMouseEnter={() => setIsDropdownOpen(true)}
                   onMouseLeave={() => setIsDropdownOpen(false)}
                 >
