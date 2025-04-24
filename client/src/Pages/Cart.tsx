@@ -13,7 +13,7 @@ export default function ShoppingCart() {
     if (currentUser) {
       navigate("/checkout");
     } else {
-      navigate("/login", { state: { from: "/checkout" } });
+      navigate("/auth", { state: { from: "/checkout" } });
     }
   };
   // Force render using counter if needed
@@ -168,15 +168,13 @@ export default function ShoppingCart() {
             </div>
 
             <div className="flex justify-end">
-              <Link to="/checkout">
-                <button
-                  onClick={handleCheckout}
-                  className="hover:bg-[#176112ac] cursor-pointer bg-[#176112] text-white py-3 px-6 rounded-md font-medium flex items-center"
-                >
-                  <ShoppingBag size={18} className="mr-2" />
-                  Checkout
-                </button>
-              </Link>
+              <button
+                onClick={handleCheckout}
+                className="hover:bg-[#176112ac] cursor-pointer bg-[#176112] text-white py-3 px-6 rounded-md font-medium flex items-center"
+              >
+                <ShoppingBag size={18} className="mr-2" />
+                Checkout
+              </button>
             </div>
           </>
         )}

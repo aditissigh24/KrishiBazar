@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from "react";
 import axios from "axios";
-
+import { useCart } from "./CartStore";
 // Define the base URL for your API
 const API_BASE_URL = "https://krishibazar-sgjm.onrender.com";
 
@@ -44,7 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const { clearCart } = useCart();
   // Configure axios defaults for all requests
   axios.defaults.withCredentials = true;
 
@@ -159,6 +159,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       // Even if server logout fails, clear local state
       setCurrentUser(null);
+
+      clearCart();
       localStorage.removeItem("user");
       setLoading(false);
     }

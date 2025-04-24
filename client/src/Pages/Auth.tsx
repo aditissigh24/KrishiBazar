@@ -18,6 +18,7 @@ export default function AuthPages() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [returnUrl, setReturnUrl] = useState<string>("/");
 
   const [loginForm, setLoginForm] = useState<LoginFormState>({
     email: "",
@@ -34,22 +35,44 @@ export default function AuthPages() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Set the return URL on component mount
+  useEffect(() => {
+    // Check URL parameters first
+    const urlParams = new URLSearchParams(window.location.search);
+    const returnToParam = urlParams.get("returnTo");
+
+    // Check location state as fallback
+    const returnToState = location.state?.from?.pathname;
+
+    // Store the return URL with priority for URL parameter
+    const finalReturnUrl = returnToParam || returnToState || "/";
+    setReturnUrl(finalReturnUrl);
+
+    // Log for debugging
+    console.log("Auth return URL set to:", finalReturnUrl);
+    console.log("Location state:", location.state);
+    console.log("URL params returnTo:", returnToParam);
+  }, [location]);
+
   // Redirect if already logged in
   useEffect(() => {
     if (currentUser) {
-      // Redirect to intended destination or default to home
-      const from = location.state?.from?.pathname || "/";
-      navigate(from, { replace: true });
+      console.log("User authenticated, redirecting to:", returnUrl);
+      // Use setTimeout to ensure this happens after state updates
+      setTimeout(() => {
+        navigate(returnUrl, { replace: true });
+      }, 0);
     }
-  }, [currentUser, navigate, location]);
+  }, [currentUser, navigate, returnUrl]);
 
   const handleLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError(null);
 
     try {
+      console.log("Attempting login, will redirect to:", returnUrl);
       await login(loginForm.email, loginForm.password);
-      // No need to navigate here, useEffect will do it when currentUser is set
+      // The useEffect will handle redirection when currentUser updates
     } catch (err) {
       setFormError("Failed to log in. Please check your credentials.");
       console.error("Login error:", err);
@@ -67,8 +90,9 @@ export default function AuthPages() {
     }
 
     try {
+      console.log("Attempting signup, will redirect to:", returnUrl);
       await signup(signupForm.email, signupForm.password, signupForm.name);
-      // No need to navigate here, useEffect will do it when currentUser is set
+      // The useEffect will handle redirection when currentUser updates
     } catch (err) {
       setFormError("Failed to create account. Please try again.");
       console.error("Signup error:", err);
@@ -88,9 +112,13 @@ export default function AuthPages() {
       [field]: value,
     }));
   };
+
   const navigateToForgotPassword = () => {
-    navigate("/forgot-password");
+    // Preserve the return path when navigating to forgot password
+    navigate(`/forgot-password?returnTo=${encodeURIComponent(returnUrl)}`);
   };
+
+  // Debug section to show current return URL (can be removed in production)
 
   return (
     <div className="py-20 flex items-center justify-center bg-gray-100">
