@@ -137,7 +137,12 @@ export default function CategoryPage() {
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-10 sm:gap-20 px-4">
             <div className="text-center">
-              <div className="rounded-full bg-[#faeedd] w-20 h-20 mx-auto mb-4"></div>
+              <div className="rounded-full bg-[#faeedd] overflow-hidden w-20 h-20 mx-auto mb-4">
+                <img
+                  src="/images/H4.jpeg"
+                  className="object-cover -mt-2.5 h-[100px] w-[100px]"
+                />
+              </div>
               <h1 className="mt-2 text-lg font-semibold text-black">
                 Browse Farm-Fresh <br />
                 Products
@@ -145,7 +150,12 @@ export default function CategoryPage() {
             </div>
 
             <div className="text-center">
-              <div className="rounded-full bg-[#faeedd] w-20 h-20 mx-auto mb-4"></div>
+              <div className="rounded-full bg-[#faeedd] overflow-hidden w-20 h-20 mx-auto mb-4">
+                <img
+                  src="/images/H3.jpeg"
+                  className="object-cover h-full w-full"
+                />
+              </div>
               <h1 className="mt-2 text-lg font-semibold text-black">
                 Place Order with <br />
                 Easy Payment
@@ -153,7 +163,12 @@ export default function CategoryPage() {
             </div>
 
             <div className="text-center">
-              <div className="rounded-full bg-[#faeedd] w-20 h-20 mx-auto mb-4"></div>
+              <div className="rounded-full bg-[#faeedd] overflow-hidden w-20 h-20 mx-auto mb-4">
+                <img
+                  src="/images/H1.jpeg"
+                  className="object-cover h-full w-full"
+                />
+              </div>
               <h1 className="mt-2 text-lg font-semibold text-black">
                 Get it Delivered <br />
                 to Your Door
