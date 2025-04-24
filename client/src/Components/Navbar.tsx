@@ -4,6 +4,7 @@ import { GiBeachBag } from "react-icons/gi";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useAuth } from "../Store/AuthContext"; // Update this import path to match your project structure
 import { useCart } from "../Store/CartStore";
+import AnimatedLogo from "./Collection/Logo";
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,9 +76,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Mobile Top Bar */}
         <div className="flex justify-between items-center h-16 md:hidden">
-          <div className="flex-shrink-0">
-            <img className="h-16 w-auto" src="/images/logo2.png" alt="Logo" />
-          </div>
+          <AnimatedLogo />
           <div className="flex items-center space-x-4">
             {/* Cart Icon */}
             <Link to="/cart" className="text-gray-700">
@@ -212,9 +211,9 @@ const Navbar = () => {
 
         <div className="hidden md:flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
+          <div className="flex-shrink-0 -ml-5 flex items-center">
             <a href="/">
-              <img className="h-16 w-auto" src="/images/logo2.png" alt="Logo" />
+              <AnimatedLogo />
             </a>
           </div>
 
