@@ -76,7 +76,14 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Mobile Top Bar */}
         <div className="flex justify-between items-center h-16 md:hidden">
-          <AnimatedLogo />
+          <div className=" w-20 h-12 rounded-xl overflow-hidden">
+            <a href="/">
+              <img
+                src="/images/KB.jpg"
+                className=" w-[70px] h-[50px] object-cover"
+              />
+            </a>
+          </div>
           <div className="flex items-center space-x-4">
             {/* Cart Icon */}
             <Link to="/cart" className="text-gray-700">
