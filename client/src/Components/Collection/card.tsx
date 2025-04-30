@@ -70,7 +70,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <div className="flex items-center justify-between mb-4">
           {product.weight && (
-            <div className="text-gray-500">{product.weight}</div>
+            <div className="text-gray-500">
+              {product.weight}
+              {` `}
+              {product.weightUnit}
+            </div>
           )}
           <div className="font-bold text-gray-900">
             ₹{product.price.toFixed(2)}
