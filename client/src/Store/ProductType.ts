@@ -5,6 +5,7 @@ export interface Product {
   name: string;
   price: number;
   weight?: string;
+  weightUnit?: String;
   images: ProductImage[];
   category?: string;
 }
