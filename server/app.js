@@ -16,7 +16,7 @@ app.use(
 import product_route from "./routes/ProductsRoute.js";
 import user_route from "./routes/UserRoutes.js";
 import order_route from "./routes/OrdersRoute.js";
-import payment_route from "./routes/PaymentRoute.js";
+// import payment_route from "./routes/PaymentRoute.js";
 import path from "path";
 import { fileURLToPath } from "url";
 // For __dirname
@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
 app.use("/products", product_route);
 app.use("/user", user_route);
 app.use("/order", order_route);
-app.use("/payment", payment_route);
+// app.use("/payment", payment_route);
 // Middleware for Errors
 app.use(errorMiddleware);
 const uploadDir = path.join(__dirname, "./uploads");
