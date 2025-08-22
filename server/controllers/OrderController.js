@@ -12,6 +12,7 @@ export const createOrder = catchAsyncError(async (req, res, next) => {
     taxPrice,
     shippingPrice,
     totalPrice,
+    paymentInfo,
   } = req.body;
 
   if (!orderItems || orderItems.length === 0) {
@@ -26,8 +27,12 @@ export const createOrder = catchAsyncError(async (req, res, next) => {
     taxPrice,
     shippingPrice,
     totalPrice,
+    paymentInfo,
     user: req.user._id, // comes from isAuthenticatedUser middleware
-    paidAt: Date.now(),
+    paidAt:
+      paymentInfo && paymentInfo.status === "Completed"
+        ? Date.now()
+        : undefined,
   });
   // Generate order confirmation email
   const message = generateOrderConfirmationEmail(order, req.user.name);

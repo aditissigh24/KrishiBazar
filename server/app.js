@@ -6,12 +6,29 @@ import cookieParser from "cookie-parser";
 
 app.use(json());
 app.use(cookieParser());
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://krishi-bazar-lime.vercel.app/",
+];
 app.use(
     cors({
-        origin: "*",
-        credentials: true, // if you're using cookies/auth
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+        credentials: true,
     })
 );
+// app.use(
+//     cors({
+//         origin: "*",
+//         credentials: true, // if you're using cookies/auth
+//     })
+// );
 // // Route Imports
 import product_route from "./routes/ProductsRoute.js";
 import user_route from "./routes/UserRoutes.js";
